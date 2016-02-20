@@ -1,0 +1,158 @@
+TODO:
+
+Arbiter Skeleton
+Implement Action, Resource, Domain
+Begin Simulator implementation
+Implement Model, update Domain
+Implement Arbiter
+Implement backing 'fake' real world + real world interface + associated Domain
+Implement Policies
+Implement script reader
+
+---
+
+Arbiter
+  Functions (Probably all private -- no consumers):
+    Communicate Actions to Real World - vector Action -> void
+    Get Events for Time step - int -> vector Event
+  Members:
+    Current State - State
+
+Simulator
+  Functions:
+    Get legal actions - State->vector Action
+    Is decision point - State->bool
+    Fast forward to next decision point/horizon - State->State
+    Perform action - State->Action->State
+  Members:
+    Problem domain - unique Domain
+  
+Domain
+  Functions:
+    (None)
+  Members:
+    Resource list - map id / unique Resource
+    Action list - map id / unique Action
+    Model list - map id / unique Model
+    Horizon - int
+
+State
+  Functions:
+    (Need a set of functions to modify state-- should those be protected?)
+  Members:
+    Time - int
+    Available resources - map id / int
+    Running actions - vector ActionRecord
+    Observations - vector ???
+    Temporary observations - vector ???
+
+ActionType
+  Functions:
+    Start action - Action -> State -> State
+    Finish action - Action -> State -> State
+    Generate legal action records - State -> vector Action
+  Members:
+    ID - int
+    Name - string
+    Duration - ??? (int - ideally needs to represent distribution of possible durations)
+    Cancellable - bool
+    Resource consumptions - map id / int
+
+Action
+  Functions:
+    (None)
+  Members:
+    ID - int
+    Start time - int
+
+ExperimentActionRecord : ActionRecord
+  Functions:
+    (None)
+  Members:
+    Input point - ???   
+
+CancelActionRecord : ActionRecord
+  Functions:
+    (None)
+  Members:
+    Target running action - ActionRecord*
+
+Resource
+  Functions:
+    (None)
+  Members:
+    ID - int
+    Name - string
+
+GP
+  Functions:
+    ???
+  Members:
+    ID - int
+    Name - string
+    Prior?
+
+Policy Interface
+  Functions:
+    Choose action - State -> ActionRecord
+  Members:
+    (None)
+
+Filter Interface
+  Functions:
+    Filter actions - State -> vector ActionRecord -> vector ActionRecord
+  Members:
+    (None)
+
+Bayesian Optimization Interface
+  Functions:
+    Next Point - Model ID -> State -> Point
+    Evaluate Point - Model ID -> State -> Point -> float
+  Members:
+    ???
+
+Real World Interface
+  Functions:
+    Current Timestep - int
+    Get Events - vector Event
+    Perform Event - vector Event
+  Members:
+    ???
+
+Event
+  Functions:
+    (None)
+  Members:
+    Action ID - ID
+    Time - int
+    Event Type - Start? End?
+    Event Info - vector double
+
+====
+
+Script Interface
+  Essentially just lex/parse - produces a domain that's usable by the Arbiter
+
+System Interface
+  Behavior/interface semantics will be dependent on domain- What's a clean way to handle this issue? Is it an issue?
+  Start action - return success/failure
+  Query for events at a given timestep
+    This will block until the timestep is complete in real-world systems, simulators can return immediately to replicate current behavior
+  
+Bayesian Optimization Library Interface
+  Reduces coupling between the backend library and the system itself
+  Define interface based on the needs of the simulator, implement to match those needs
+  Only used by the simulator for making predictions about the system's behavior
+
+Arbiter
+  Communicate with system interface using script-generated domain 
+  Use System Interface to maintain an accurate state representation
+
+Simulator
+  Use domain information to predict a single next state based on a given state
+    Randomness will have to be handled by sampling-- the domain will hold distribution information, the state won't!
+  Determines legal actions based on state
+
+Much of the rest is similar--
+  Policy will take a state and return an action to execute
+  Filters will consider a list of legal actions and a state and return a list of filtered actions
