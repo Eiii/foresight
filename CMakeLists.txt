@@ -10,7 +10,7 @@ list( REMOVE_ITEM PROJ_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cc" )
 set( PROJ_INCLUDES "${CMAKE_SOURCE_DIR}/include" )
 
 set( CMAKE_CXX_COMPILER "/usr/local/common/gcc-5.2.0/bin/g++" )
-set( CMAKE_CXX_FLAGS "-Wall -Weffc++" )
+set( CMAKE_CXX_FLAGS "-std=c++14 -Wall -Weffc++" )
 set( CMAKE_CXX_FLAGS_RELEASE "-O3" )
 
 project( ${PROJ_NAME} )
