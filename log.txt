@@ -1,0 +1,11 @@
+2016-02-20
+==========
+* Got YCM to use the locally-installed clang for error checking, fixed build systems. Seems to all work!
+
+2016-02-19
+==========
+* Realized my syntax checker doesn't support c++14 correctly. Spent a long time getting llvm/clang built locally. Hopefully it works.
+
+2016-02-18
+==========
+* Initial environment setup
