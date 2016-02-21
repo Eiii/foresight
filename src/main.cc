@@ -1,8 +1,12 @@
+#include "foresight/main.h"
+
 #include <iostream>
-#include "foresight/test.h"
 
 int main() {
-  std::cout << "Test." << std::endl;
-  std::cout << test_fn(7) << std::endl;
+  //TODO: Parse command line arguments
+  //TODO: Load domain
+  //TODO: Initialize real world
+  //TODO: Create arbiter
+  //TODO: Run optimization
   return 0;
 }
