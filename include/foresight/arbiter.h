@@ -17,7 +17,7 @@ class Arbiter {
     Arbiter& operator=(Arbiter&& rhs) = default;
 
   private:
-    Domain _domain;
+    Domain domain_;
 };
 
 }

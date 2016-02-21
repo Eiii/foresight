@@ -1,6 +1,8 @@
 #pragma once
 
-class Domain;
+namespace fore {
+  class Domain;
+}
 
 int main();
-Domain create_fake_domain();
+fore::Domain create_fake_domain();
