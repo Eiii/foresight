@@ -1,6 +1,7 @@
 #pragma once
 
 #include "foresight/domain.h"
+#include "foresight/state.h"
 
 namespace fore {
 
@@ -15,6 +16,8 @@ class Arbiter {
     //Allow moving
     Arbiter(Arbiter&& rhs) = default;
     Arbiter& operator=(Arbiter&& rhs) = default;
+
+    void optimize() const;
 
   private:
     Domain domain_;

@@ -9,7 +9,6 @@ file( GLOB_RECURSE PROJ_SOURCES "src/*.cc" )
 file( GLOB PROJ_MAIN "src/main.cc" )
 list( REMOVE_ITEM PROJ_SOURCES ${PROJ_MAIN} )
 set( PROJ_INCLUDES "${CMAKE_SOURCE_DIR}/include" )
-message( STATUS ${PROJ_INCLUDES} )
 
 project( ${PROJ_NAME} )
 
@@ -22,6 +21,7 @@ set( CMAKE_CXX_FLAGS "-std=c++14 -Wall -Weffc++" )
 set( CMAKE_CXX_FLAGS_RELEASE "-O3" )
 
 include_directories( ${PROJ_INCLUDES} )
+include_directories( SYSTEM ${BOOST_INCLUDES} )
 add_library( ${PROJ_NAME} ${PROJ_SOURCES} )
 add_executable( ${PROJ_EXE} "src/main.cc" )
 target_link_libraries( ${PROJ_EXE} ${PROJ_NAME} )
