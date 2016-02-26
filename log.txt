@@ -1,3 +1,15 @@
+2016-02-25
+==========
+* Fixed odd segfault-- member variable was const reference instead of just
+const.
+
+2016-02-24
+==========
+* Built out more of the skeleton for state/resources/actions. Next step is
+action records and state transition to start building the simulator.
+* Odd segfault?
+
+
 2016-02-22
 ==========
 * Recompiled llvm/clang from source to correctly point at the gcc5.2 headers,
