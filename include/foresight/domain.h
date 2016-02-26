@@ -35,7 +35,7 @@ class Domain {
     ActionType::Map actions_;
     Resource::Map resources_;
     int horizon_; //TODO: Timestep alias?
-    const State& initial_state_;
+    const State initial_state_;
 };
 
 }

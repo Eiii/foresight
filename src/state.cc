@@ -8,11 +8,7 @@ State::State(int timestep, Resource::Amount resources) :
     timestep_(timestep), resources_(resources) {}
 
 State::State(const State& rhs) :
-    timestep_(), resources_() 
-{ 
-  timestep_ = rhs.timestep_;
-  resources_ = rhs.resources_;
-};
+    timestep_(rhs.timestep_), resources_(rhs.resources_) {}
 
 std::string State::info() const
 {
