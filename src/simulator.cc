@@ -1,5 +1,7 @@
 #include "foresight/simulator.h"
 
+#include <cassert>
+
 namespace fore {
 
 Simulator::Simulator(const Domain& domain) :
@@ -13,7 +15,7 @@ State Simulator::AdvanceTime(const State& state)
 
 State Simulator::BeginAction(const State& state, const Action& action)
 {
-  //TODO
+  assert(action.time_started() == state.timestep());
   (void)action;
   return state;
 }

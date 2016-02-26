@@ -4,6 +4,8 @@
 const.
 * Added Action class
 * TODO: I should add an state factory
+* Added simulator skeleton
+* Added running action list to state
 
 2016-02-24
 ==========

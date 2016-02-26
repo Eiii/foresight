@@ -15,7 +15,9 @@ State::State(int timestep, Resource::Amount resources,
     running_actions_(running_actions) {}
 
 State::State(const State& rhs) :
-    timestep_(rhs.timestep_), resources_(rhs.resources_) {}
+    timestep_(rhs.timestep_), 
+    resources_(rhs.resources_),
+    running_actions_(rhs.running_actions_) {}
 
 std::string State::info() const
 {

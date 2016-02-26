@@ -5,6 +5,7 @@
 #include "foresight/domain.h"
 #include "foresight/resource.h"
 #include "foresight/state.h"
+#include "foresight/statefactory.h"
 
 #include <iostream>
 
@@ -47,7 +48,9 @@ fore::Domain create_fake_domain()
       fore::ActionType(10, "Ten", 7, zero_amount, one_amount, zero_amount)
   );
   auto horizon(20);
-  fore::State init_state(0, zero_amount, empty_actions);
+
+  fore::StateFactory fact;
+  auto init_state = fact.Finish();
 
   return fore::Domain(std::move(action_map), 
                       std::move(resource_map), 
