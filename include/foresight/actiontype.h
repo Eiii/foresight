@@ -16,7 +16,7 @@ class ActionType {
 
   //Constructors 
   public:
-    ActionType(int id, std::string name, int duration,
+    ActionType(Id id, std::string name, Duration duration,
                Resource::Amount requires,
                Resource::Amount produces,
                Resource::Amount upkeep);

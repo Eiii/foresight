@@ -1,6 +1,6 @@
 #include "foresight/main.h"
 
-#include "foresight/actiontype.h"
+#include "foresight/actiontypefactory.h"
 #include "foresight/arbiter.h"
 #include "foresight/domainfactory.h"
 #include "foresight/resource.h"
@@ -40,12 +40,10 @@ fore::Domain create_fake_domain()
   auto init_state(state_fact.Finish());
 
   fore::DomainFactory domain_fact(horizon, init_state);
-  domain_fact.AddResource(10, "Ten");
-  fore::Resource::Amount zero_amount;
-  fore::Resource::Amount one_amount;
-  one_amount[10] = 1;
-  domain_fact.AddActionType(7, "ASeven", 12, zero_amount, one_amount, 
-                            zero_amount); 
+  fore::ActionTypeFactory action_fact(7, "ASeven", 12);
+  action_fact.SetResourceProduction(10, 1);
+  domain_fact.AddActionType(action_fact.Finish());
+  domain_fact.AddResource(10, "RTen");
 
   return domain_fact.FinishAndReset();
 }

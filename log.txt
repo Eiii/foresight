@@ -6,6 +6,8 @@ const.
 * TODO: I should add an state factory
 * Added simulator skeleton
 * Added running action list to state
+* Added domain/state factories
+* Addde action type factory
 
 2016-02-24
 ==========

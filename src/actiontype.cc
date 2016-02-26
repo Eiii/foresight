@@ -2,7 +2,7 @@
 
 namespace fore {
 
-ActionType::ActionType(int id, std::string name, int duration,
+ActionType::ActionType(Id id, std::string name, Duration duration,
                        Resource::Amount requires,
                        Resource::Amount produces,
                        Resource::Amount upkeep) :
