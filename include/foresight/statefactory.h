@@ -21,16 +21,13 @@ class StateFactory {
     State Finish() const;
     void Reset();
     void Copy(const State& state);
-
-    template<typename... Args>
-    void AddResource(Args&&... args);
-
+    void SetResourceAmount(Resource::Id id, int amount);
     template<typename... Args>
     void AddRunningAction(Args&&... args);
 
   //Setters
   public:
-    void set_timestep(int time);
+    void set_timestep(int time) { timestep_ = time; }
     template <typename T> 
     void set_resources(T&& resources);
     template <typename T>
@@ -42,5 +39,24 @@ class StateFactory {
     Resource::Amount resources_;
     Action::List running_actions_;
 };
+
+template<typename... Args>
+void StateFactory::AddRunningAction(Args&&... args)
+{
+  running_actions_.emplace_back(std::forward<Args>(args)...);
+}
+
+template <typename T> 
+void StateFactory::set_resources(T&& resources)
+{
+  resources_ = std::forward<T>(resources);
+}
+
+template <typename T>
+void StateFactory::set_running_actions(T&& running_actions) 
+{
+  running_actions_ = std::forward<T>(running_actions);
+}
+
 
 }

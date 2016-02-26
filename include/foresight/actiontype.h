@@ -21,7 +21,6 @@ class ActionType {
                Resource::Amount produces,
                Resource::Amount upkeep);
     virtual ~ActionType() = default;
-    //Forbid copying
     ActionType(const ActionType& rhs) = delete;
     ActionType& operator=(const ActionType& rhs) = delete;
     //Allow moving

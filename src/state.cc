@@ -39,7 +39,7 @@ void show_resource_amounts(std::stringstream* ss, fore::Resource::Amount amt)
     *ss << "\t(None)" << std::endl;
   }
   for (const auto& key : amt) {
-    *ss << "\t" << key.first << ": " << key.second; 
+    *ss << "\t" << key.first << ": " << key.second << std::endl; 
   }
 }
 

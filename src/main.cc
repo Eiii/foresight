@@ -2,9 +2,8 @@
 
 #include "foresight/actiontype.h"
 #include "foresight/arbiter.h"
-#include "foresight/domain.h"
+#include "foresight/domainfactory.h"
 #include "foresight/resource.h"
-#include "foresight/state.h"
 #include "foresight/statefactory.h"
 
 #include <iostream>
@@ -34,26 +33,19 @@ void init_logger()
 
 fore::Domain create_fake_domain() 
 {
-  fore::ActionType::Map action_map;
-  fore::Resource::Map resource_map;
+  auto horizon(20);
+  fore::StateFactory state_fact;
+  state_fact.SetResourceAmount(10, 2);
+  state_fact.AddRunningAction(7, 0);
+  auto init_state(state_fact.Finish());
 
-  resource_map.emplace(1, fore::Resource(0, "Zero"));
-
+  fore::DomainFactory domain_fact(horizon, init_state);
+  domain_fact.AddResource(10, "Ten");
   fore::Resource::Amount zero_amount;
   fore::Resource::Amount one_amount;
-  one_amount[1] = 1;
-  fore::Action::List empty_actions;
-  action_map.emplace(
-      10, 
-      fore::ActionType(10, "Ten", 7, zero_amount, one_amount, zero_amount)
-  );
-  auto horizon(20);
+  one_amount[10] = 1;
+  domain_fact.AddActionType(7, "ASeven", 12, zero_amount, one_amount, 
+                            zero_amount); 
 
-  fore::StateFactory fact;
-  auto init_state = fact.Finish();
-
-  return fore::Domain(std::move(action_map), 
-                      std::move(resource_map), 
-                      horizon,
-                      init_state);
+  return domain_fact.FinishAndReset();
 }

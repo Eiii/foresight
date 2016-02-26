@@ -32,28 +32,9 @@ void StateFactory::Copy(const State& state)
   running_actions_ = state.running_actions();
 }
 
-template<typename... Args>
-void StateFactory::AddResource(Args&&... args)
+void StateFactory::SetResourceAmount(Resource::Id id, int amount)
 {
-  resources_.emplace(std::forward<Args>(args)...);
-}
-
-template<typename... Args>
-void StateFactory::AddRunningAction(Args&&... args)
-{
-  running_actions_.emplace(std::forward<Args>(args)...);
-}
-
-template <typename T> 
-void StateFactory::set_resources(T&& resources)
-{
-  resources_ = std::forward<T>(resources);
-}
-
-template <typename T>
-void StateFactory::set_running_actions(T&& running_actions) 
-{
-  running_actions_ = std::forward<T>(running_actions);
+  resources_[id] = amount;
 }
 
 }
