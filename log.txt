@@ -2,6 +2,8 @@
 ==========
 * Fixed odd segfault-- member variable was const reference instead of just
 const.
+* Added Action class
+* TODO: I should add an state factory
 
 2016-02-24
 ==========

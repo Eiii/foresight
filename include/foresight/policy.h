@@ -2,6 +2,8 @@
 
 #include "foresight/domain.h"
 
+#include <memory>
+
 namespace fore {
 
 class Policy {
@@ -14,7 +16,7 @@ class Policy {
     Policy& operator=(Policy&& rhs) = default;
 
     //TODO: Fill signature
-    virtual void SelectAction() = 0;
+    virtual std::unique_ptr<Action> SelectAction(const State& state) = 0;
 
   private:
     const Domain& domain_;

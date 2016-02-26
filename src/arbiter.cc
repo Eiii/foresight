@@ -9,7 +9,7 @@ using std::endl;
 namespace fore {
 
 Arbiter::Arbiter(Domain&& domain) :
-    domain_(move(domain)) {}
+    domain_(move(domain)), simulator_(domain_) {}
 
 void Arbiter::optimize() const 
 {

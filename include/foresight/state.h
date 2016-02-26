@@ -1,5 +1,6 @@
 #pragma once
 
+#include "foresight/action.h"
 #include "foresight/resource.h"
 
 #include <string>
@@ -9,7 +10,8 @@ namespace fore {
 class State {
   //Constructors
   public:
-    State(int timestep, Resource::Amount resources);
+    State(int timestep, Resource::Amount resources, 
+          Action::List running_actions);
     virtual ~State() = default;
     State(const State& rhs);
     State& operator=(const State& rhs) = default;
@@ -29,7 +31,7 @@ class State {
     //TODO: Time type?
     int timestep_;
     Resource::Amount resources_;
-    //TODO: Currently running actions
+    Action::List running_actions_;
 };
 
 }

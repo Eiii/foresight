@@ -1,6 +1,7 @@
 #pragma once
 
 #include "foresight/domain.h"
+#include "foresight/simulator.h"
 #include "foresight/state.h"
 
 namespace fore {
@@ -21,6 +22,7 @@ class Arbiter {
 
   private:
     Domain domain_;
+    Simulator simulator_;
 };
 
 }

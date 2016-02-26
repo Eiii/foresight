@@ -41,12 +41,13 @@ fore::Domain create_fake_domain()
   fore::Resource::Amount zero_amount;
   fore::Resource::Amount one_amount;
   one_amount[1] = 1;
+  fore::Action::List empty_actions;
   action_map.emplace(
       10, 
       fore::ActionType(10, "Ten", 7, zero_amount, one_amount, zero_amount)
   );
   auto horizon(20);
-  fore::State init_state(0, zero_amount);
+  fore::State init_state(0, zero_amount, empty_actions);
 
   return fore::Domain(std::move(action_map), 
                       std::move(resource_map), 
