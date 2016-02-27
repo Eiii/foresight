@@ -12,6 +12,10 @@ class Duration {
     Duration(Duration&& rhs) = default;
     Duration& operator=(Duration&& rhs) = default;
 
+  //Getters
+  public:
+    int mean() const { return mean_; }
+
   //Member variables
   private:
     int mean_;

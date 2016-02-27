@@ -22,17 +22,22 @@ class Domain {
 
   //Public functions
   public:
-    std::string info() const;
+    std::string Info() const;
+
+  //Helper Getters
+  public:
+    const ActionType& action_type(ActionType::Id id) const;
+    const Resource& resource(Resource::Id id) const;
 
   //Getters
   public:
-    const ActionType::Map& actions() const { return actions_; }
+    const ActionType::Map& action_types() const { return action_types_; }
     const Resource::Map& resources() const { return resources_; }
     int horizon() const { return horizon_; }
     const State& initial_state() const { return initial_state_; }
 
   private:
-    ActionType::Map actions_;
+    ActionType::Map action_types_;
     Resource::Map resources_;
     int horizon_; //TODO: Timestep alias?
     const State initial_state_;

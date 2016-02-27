@@ -20,17 +20,17 @@ class State {
 
   //Public functions
   public:
-    std::string info() const;
+    std::string Info() const;
 
   //Getters
   public:
-    int timestep() const { return timestep_; }
+    int time() const { return time_; }
     Resource::Amount resources() const { return resources_; }
     Action::List running_actions() const { return running_actions_; }
 
   private:
     //TODO: Time type?
-    int timestep_;
+    int time_;
     Resource::Amount resources_;
     Action::List running_actions_;
 };

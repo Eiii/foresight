@@ -16,8 +16,12 @@ class Simulator {
 
   //Public functions
   public:
-    State AdvanceTime(const State& state);
-    State BeginAction(const State& state, const Action& action);
+    State AdvanceTime(const State& state) const;
+    State BeginAction(const State& state, const Action& action) const;
+
+  //Private functions
+  private:
+    bool IsActionFinished(const Action& action, const State& state) const;
 
   //Member variables
   private:

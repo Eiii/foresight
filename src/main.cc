@@ -21,7 +21,7 @@ int main()
   //TODO: Create arbiter
   fore::Arbiter arbiter(std::move(domain));
   //TODO: Run optimization
-  arbiter.optimize();
+  arbiter.Optimize();
   
   return 0;
 }

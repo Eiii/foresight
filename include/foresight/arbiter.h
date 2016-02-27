@@ -7,8 +7,8 @@
 namespace fore {
 
 class Arbiter {
+  //Constructors
   public:
-    //Constructors
     Arbiter(Domain&& domain);
     virtual ~Arbiter() = default;
     //Forbid copying
@@ -18,8 +18,15 @@ class Arbiter {
     Arbiter(Arbiter&& rhs) = default;
     Arbiter& operator=(Arbiter&& rhs) = default;
 
-    void optimize() const;
+  //Public functions
+  public:
+    void Optimize() const;
 
+  //Private functions
+  private:
+    bool IsHorizonReached(const State& state) const;
+
+  //Member variables
   private:
     Domain domain_;
     Simulator simulator_;

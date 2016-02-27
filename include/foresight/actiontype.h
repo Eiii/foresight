@@ -31,6 +31,7 @@ class ActionType {
   public:
     Id id() const { return id_; }
     const std::string& name() const { return name_; }
+    const Duration& duration() const { return duration_; }
 
   private:
     Id id_;

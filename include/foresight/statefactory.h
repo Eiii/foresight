@@ -9,7 +9,7 @@ class StateFactory {
   public:
     StateFactory();
     StateFactory(const State& state);
-    StateFactory(int timestep);
+    StateFactory(int time);
     virtual ~StateFactory() = default;
     StateFactory(const StateFactory& rhs) = default;
     StateFactory& operator=(const StateFactory& rhs) = default;
@@ -27,7 +27,7 @@ class StateFactory {
 
   //Setters
   public:
-    void set_timestep(int time) { timestep_ = time; }
+    void set_time(int time) { time_ = time; }
     template <typename T> 
     void set_resources(T&& resources);
     template <typename T>
@@ -35,7 +35,7 @@ class StateFactory {
   
   //Member variables:
   private:
-    int timestep_;
+    int time_;
     Resource::Amount resources_;
     Action::List running_actions_;
 };

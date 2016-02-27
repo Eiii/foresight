@@ -9,20 +9,20 @@ static void show_running_actions(std::stringstream* ss,
 
 namespace fore {
 
-State::State(int timestep, Resource::Amount resources, 
+State::State(int time, Resource::Amount resources, 
              Action::List running_actions) :
-    timestep_(timestep), resources_(resources), 
+    time_(time), resources_(resources), 
     running_actions_(running_actions) {}
 
 State::State(const State& rhs) :
-    timestep_(rhs.timestep_), 
+    time_(rhs.time_), 
     resources_(rhs.resources_),
     running_actions_(rhs.running_actions_) {}
 
-std::string State::info() const
+std::string State::Info() const
 {
   std::stringstream ss;
-  ss << "Time: " << timestep_ << std::endl;
+  ss << "Time: " << time_ << std::endl;
   ss << "Resources: " << std::endl;
   show_resource_amounts(&ss, resources_);
   ss << "Running actions: " << std::endl;
