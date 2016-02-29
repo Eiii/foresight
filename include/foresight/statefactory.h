@@ -25,6 +25,12 @@ class StateFactory {
     template<typename... Args>
     void AddRunningAction(Args&&... args);
 
+  //Getters
+  public:
+    const auto& time() const { return time_; }
+    const auto& resources() const { return resources_; }
+    const auto& running_actions() const { return running_actions_; }
+
   //Setters
   public:
     void set_time(int time) { time_ = time; }

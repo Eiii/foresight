@@ -5,6 +5,7 @@
 #include "foresight/domainfactory.h"
 #include "foresight/resource.h"
 #include "foresight/statefactory.h"
+#include "foresight/policies/human.h"
 
 #include <iostream>
 

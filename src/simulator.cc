@@ -20,7 +20,8 @@ State Simulator::AdvanceTime(const State& state) const
   Action::List next_actions;
   for (const auto& action : state.running_actions()) {
     if (IsActionFinished(action, state)) {
-      //TODO: Finish action
+      const auto& atype(domain_.action_type(action.type_id()));
+      atype.End(action, &state_fact);
     } else {
       next_actions.emplace_back(action);
     }
@@ -34,8 +35,9 @@ State Simulator::BeginAction(const State& state,
                              const Action& action) const
 {
   assert(action.time_started() == state.time());
-  (void)action;
-  return state;
+  const auto& atype(domain_.action_type(action.type_id()));
+  const auto result_state(atype.Start(action, state));
+  return result_state;
 }
 
 bool Simulator::IsActionFinished(const Action& action, 

@@ -2,6 +2,8 @@
 
 #include "foresight/duration.h"
 #include "foresight/resource.h"
+#include "foresight/state.h"
+#include "foresight/statefactory.h"
 
 #include <map>
 #include <string>
@@ -21,11 +23,17 @@ class ActionType {
                Resource::Amount produces,
                Resource::Amount upkeep);
     virtual ~ActionType() = default;
+    //Forbid copying
     ActionType(const ActionType& rhs) = delete;
     ActionType& operator=(const ActionType& rhs) = delete;
     //Allow moving
     ActionType(ActionType&& rhs) = default;
     ActionType& operator=(ActionType&& rhs) = default;
+
+  //Public functions
+  public:
+    State Start(const Action& action, const State& state) const;
+    void End(const Action& action, StateFactory* fact) const;
 
   //Getters
   public:

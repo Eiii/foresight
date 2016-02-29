@@ -1,9 +1,19 @@
+2016-02-29
+==========
+* Got action beginning/ending working.
+* Found dumb solution to circularly-defined type aliases.
+
+2016-02-26
+==========
+* Added first stab at state transition to simulator.
+* TODO: upkeep costs, action finishing/starting functions
+
 2016-02-25
 ==========
 * Fixed odd segfault-- member variable was const reference instead of just
 const.
 * Added Action class
-* TODO: I should add an state factory
+* TODO: I should add a state factory
 * Added simulator skeleton
 * Added running action list to state
 * Added domain/state factories
@@ -14,7 +24,6 @@ const.
 * Built out more of the skeleton for state/resources/actions. Next step is
 action records and state transition to start building the simulator.
 * Odd segfault?
-
 
 2016-02-22
 ==========

@@ -31,4 +31,12 @@ class Resource {
     std::string name_;
 };
 
+//Utility functions
+bool has_enough(const Resource::Amount& source, 
+                const Resource::Amount& required);
+Resource::Amount operator-(const Resource::Amount& lhs, 
+                           const Resource::Amount& rhs);
+Resource::Amount operator+(const Resource::Amount& lhs, 
+                           const Resource::Amount& rhs);
+
 }

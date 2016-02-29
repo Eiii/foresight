@@ -22,6 +22,7 @@ class Simulator {
   //Private functions
   private:
     bool IsActionFinished(const Action& action, const State& state) const;
+    State EndAction(const State& state, const Action& action) const;
 
   //Member variables
   private:

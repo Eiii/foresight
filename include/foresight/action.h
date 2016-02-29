@@ -1,10 +1,14 @@
 #pragma once
 
-#include "foresight/actiontype.h"
-
 #include <vector>
 
 namespace fore {
+
+namespace {
+  //Copy the type of ActionType::Id to avoid circular definition
+  //TODO: This is dumb
+  using ActionTypeId = int;
+}
 
 class Action {
   //Type aliases
@@ -13,21 +17,24 @@ class Action {
 
   //Constructors
   public:
-    Action(ActionType::Id type_id, int time_started);
+    Action(ActionTypeId type_id, int time_started);
     virtual ~Action() = default;
     Action(const Action& rhs) = default;
     Action& operator=(const Action& rhs) = default;
     Action(Action&& rhs) = default;
     Action& operator=(Action&& rhs) = default;
 
+  public:
+    bool operator==(const Action& rhs) const;
+
   //Getters/setters
   public:
-    ActionType::Id type_id() const { return type_id_; }
+    ActionTypeId type_id() const { return type_id_; }
     int time_started() const { return time_started_; }
 
   //Member variables
   private:
-    ActionType::Id type_id_;
+    ActionTypeId type_id_;
     int time_started_;
 };
 
