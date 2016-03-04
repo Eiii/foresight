@@ -14,13 +14,29 @@ ActionType::ActionType(Id id, std::string name, Duration duration,
     id_(id), name_(name), duration_(duration), requires_(requires),
     produces_(produces), upkeep_(upkeep) {}
 
+bool ActionType::CanStart(const State& state) const
+{
+  const auto& available = state.resources();
+  return has_enough(available, requires_);
+}
+
+std::vector<Action::Ptr> ActionType::GenerateActions
+(
+    const State& state
+) const
+{
+  std::vector<Action::Ptr> actions;
+  actions.emplace_back(std::make_unique<Action>(id_, state.time()));
+  return actions;
+}
+
 State ActionType::Start(const Action& action, const State& state) const
 {
-  StateFactory factory(state);
   //Verify we actually have enough resources to start the action
   assert(has_enough(state.resources(), requires_));
+  StateFactory factory(state);
   //Subtract those resources
-  auto res_available = state.resources() - requires_;
+  auto res_available = factory.resources() - requires_;
   factory.set_resources(std::move(res_available));
   //Add the action
   auto actions = state.running_actions();

@@ -40,11 +40,37 @@ State Simulator::BeginAction(const State& state,
   return result_state;
 }
 
+bool Simulator::IsDecisionPoint(const State& state) const
+{
+  for (const auto& key : domain_.action_types()) {
+    const auto& atype = key.second;
+    if (atype.CanStart(state)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+std::vector<Action::Ptr> Simulator::LegalActions(const State& state) const
+{
+  (void)state;
+  std::vector<Action::Ptr> actions;
+  for (const auto& key : domain_.action_types()) {
+    const auto& atype(key.second);
+    if (!atype.CanStart(state)) continue;
+    auto type_actions(atype.GenerateActions(state));
+    std::move(type_actions.begin(), 
+              type_actions.end(), 
+              std::back_inserter(actions));
+  }
+  return actions;
+}
+
 bool Simulator::IsActionFinished(const Action& action, 
                                  const State& state) const
 {
-  const auto& atype = domain_.action_type(action.type_id());
-  auto duration = atype.duration().mean();
+  const auto& atype(domain_.action_type(action.type_id()));
+  auto duration(atype.duration().mean());
   return state.time() >= action.time_started() + duration;
 }
 

@@ -7,6 +7,7 @@
 
 #include <map>
 #include <string>
+#include <vector>
 
 namespace fore {
 
@@ -32,6 +33,8 @@ class ActionType {
 
   //Public functions
   public:
+    bool CanStart(const State& state) const;
+    std::vector<Action::Ptr> GenerateActions(const State& state) const;
     State Start(const Action& action, const State& state) const;
     void End(const Action& action, StateFactory* fact) const;
 

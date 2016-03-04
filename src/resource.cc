@@ -6,14 +6,15 @@ Resource::Resource(Id id, std::string name) :
     id_(id),
     name_(name) {}
 
-bool has_enough(const Resource::Amount& source, 
+bool has_enough(const Resource::Amount& available, 
                 const Resource::Amount& required)
 {
   for (const auto& key : required)
   {
     Resource::Id id = key.first;
-    int amount = key.second;
-    if (source.count(id) == 0 || source.at(id) < amount) {
+    int needed = key.second;
+    int current = available.count(id) ? available.at(id) : 0;
+    if (current < needed) {
       return false;
     }
   }

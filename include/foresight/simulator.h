@@ -18,6 +18,8 @@ class Simulator {
   public:
     State AdvanceTime(const State& state) const;
     State BeginAction(const State& state, const Action& action) const;
+    bool IsDecisionPoint(const State& state) const;
+    std::vector<Action::Ptr> LegalActions(const State& state) const;
 
   //Private functions
   private:
