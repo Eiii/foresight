@@ -41,6 +41,7 @@ fore::Domain create_fake_domain()
 
   fore::DomainFactory domain_fact(horizon, init_state);
   fore::ActionTypeFactory action_fact(7, "Process A", 4);
+  action_fact.set_cancelable(true);
   action_fact.SetResourceRequirement(10, 1);
   action_fact.SetResourceProduction(10, 1);
   domain_fact.AddActionType(action_fact.Finish());

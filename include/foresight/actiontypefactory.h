@@ -25,6 +25,7 @@ class ActionTypeFactory {
   //Setters
   public:
     void set_id(ActionType::Id id) { id_ = id; }
+    void set_cancelable(bool cancelable) { cancelable_ = cancelable; }
     template<typename T>
     void set_name(T&& name);
     template<typename T>
@@ -41,6 +42,7 @@ class ActionTypeFactory {
     ActionType::Id id_;
     std::string name_;
     Duration duration_;
+    bool cancelable_;
     Resource::Amount requires_;
     Resource::Amount produces_;
     Resource::Amount upkeep_;

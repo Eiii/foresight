@@ -19,7 +19,7 @@ class ActionType {
 
   //Constructors 
   public:
-    ActionType(Id id, std::string name, Duration duration,
+    ActionType(Id id, std::string name, Duration duration, bool cancelable,
                Resource::Amount requires,
                Resource::Amount produces,
                Resource::Amount upkeep);
@@ -42,12 +42,14 @@ class ActionType {
   public:
     Id id() const { return id_; }
     const std::string& name() const { return name_; }
+    bool cancelable() const { return cancelable_; }
     const Duration& duration() const { return duration_; }
 
   private:
     Id id_;
     std::string name_;
     Duration duration_;
+    bool cancelable_;
     Resource::Amount requires_;
     Resource::Amount produces_;
     Resource::Amount upkeep_;

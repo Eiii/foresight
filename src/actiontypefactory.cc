@@ -4,12 +4,13 @@ namespace fore {
 
 ActionTypeFactory::ActionTypeFactory(int id, std::string name, 
                                      Duration duration) :
-    id_(id), name_(name), duration_(duration), requires_(), produces_(), 
-    upkeep_() {}
+    id_(id), name_(name), duration_(duration), cancelable_(false),
+    requires_(), produces_(), upkeep_() {}
 
 ActionType ActionTypeFactory::Finish() const
 {
-  return ActionType(id_, name_, duration_, requires_, produces_, upkeep_);
+  return ActionType(id_, name_, duration_, cancelable_, 
+                    requires_, produces_, upkeep_);
 }
 
 void ActionTypeFactory::Reset(ActionType::Id id, std::string name, 
@@ -18,6 +19,7 @@ void ActionTypeFactory::Reset(ActionType::Id id, std::string name,
   id_ = id;
   name_ = name;
   duration_ = duration;
+  cancelable_ = false;
   requires_.clear();
   produces_.clear();
   upkeep_.clear();

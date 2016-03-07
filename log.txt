@@ -1,3 +1,8 @@
+2016-03-07
+==========
+* Fixed small simulator bug- multiple actions can be started in the same
+timestep now.
+
 2016-03-03
 ==========
 * Made arbiter ask a policy for actions at decision points
