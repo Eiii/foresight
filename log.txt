@@ -1,3 +1,8 @@
+2016-03-03
+==========
+* Made arbiter ask a policy for actions at decision points
+* Got simple human policy working
+
 2016-02-29
 ==========
 * Got action beginning/ending working.

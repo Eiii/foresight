@@ -40,11 +40,11 @@ fore::Domain create_fake_domain()
   auto init_state(state_fact.Finish());
 
   fore::DomainFactory domain_fact(horizon, init_state);
-  fore::ActionTypeFactory action_fact(7, "ASeven", 4);
+  fore::ActionTypeFactory action_fact(7, "Process A", 4);
   action_fact.SetResourceRequirement(10, 1);
   action_fact.SetResourceProduction(10, 1);
   domain_fact.AddActionType(action_fact.Finish());
-  domain_fact.AddResource(10, "RTen");
+  domain_fact.AddResource(10, "ResA");
 
   return domain_fact.FinishAndReset();
 }

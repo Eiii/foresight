@@ -19,13 +19,15 @@ void Arbiter::Optimize() const
   cout << state.Info() << endl;
 
   while (!IsHorizonReached(state)) {
-    if (simulator_.IsDecisionPoint(state)) {
+    while (simulator_.IsDecisionPoint(state)) {
+      cout << state.Info() << endl;
       auto action_ptr(policy_->SelectAction(state));
       state = simulator_.BeginAction(state, *action_ptr);
     }
-    state = simulator_.AdvanceTime(state);
     cout << state.Info() << endl;
+    state = simulator_.AdvanceTime(state);
   }
+  cout << state.Info() << endl;
   cout << "Finished!" << endl;
 }
 
