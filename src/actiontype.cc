@@ -5,6 +5,9 @@
 #include <algorithm>
 #include <cassert>
 
+static void remove_action(fore::StateFactory* fact, 
+                          const fore::Action& target);
+
 namespace fore {
 
 ActionType::ActionType(Id id, std::string name, Duration duration,
@@ -52,11 +55,24 @@ void ActionType::End(const Action& action, StateFactory* fact) const
   //Add produced resources
   fact->set_resources(current_resources + produces_);
   //Remove finished action
+  remove_action(fact, action);
+}
+
+State ActionType::Cancel(const Action& target, const State& state) const
+{
+  StateFactory factory(state);
+  remove_action(&factory, target);
+  return factory.Finish();
+}
+
+}
+
+static void remove_action(fore::StateFactory* fact, const fore::Action& target)
+{
   auto actions(fact->running_actions());
-  auto it = std::find(actions.cbegin(), actions.cend(), action);
+  auto it = std::find(actions.cbegin(), actions.cend(), target);
   assert(it != actions.cend());
   actions.erase(it);
   fact->set_running_actions(std::move(actions));
 }
 
-}

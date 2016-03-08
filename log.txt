@@ -1,6 +1,8 @@
 2016-03-08
 ==========
 * Got cancel action half-implemented- dumb reference bug.
+* Finished cancellation.
+* TODO: Convert Action::List to list-of-pointers.
 
 2016-03-07
 ==========

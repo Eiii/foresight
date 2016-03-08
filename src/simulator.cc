@@ -37,10 +37,17 @@ State Simulator::AdvanceTime(const State& state) const
 State Simulator::BeginAction(const State& state, 
                              const Action& action) const
 {
-  assert(action.time_started() == state.time());
-  const auto& atype(domain_.action_type(action.type_id()));
-  const auto result_state(atype.Start(action, state));
-  return result_state;
+  if (is_cancel_action(action)) {
+    const auto& cancel = static_cast<const CancelAction&>(action);
+    const auto& atype(domain_.action_type(cancel.type_id()));
+    const auto result_state(atype.Cancel(cancel.target(), state));
+    return result_state;  
+  } else {
+    assert(action.time_started() == state.time());
+    const auto& atype(domain_.action_type(action.type_id()));
+    const auto result_state(atype.Start(action, state));
+    return result_state;
+  }
 }
 
 bool Simulator::IsDecisionPoint(const State& state) const

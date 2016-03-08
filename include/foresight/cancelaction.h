@@ -27,7 +27,7 @@ class CancelAction : public Action {
 
   //Getters
   public:
-    const Action& target() { return target_; }
+    const Action& target() const { return target_; }
 
   //Member variables
   private:

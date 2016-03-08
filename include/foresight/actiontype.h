@@ -37,6 +37,7 @@ class ActionType {
     std::vector<Action::Ptr> GenerateActions(const State& state) const;
     State Start(const Action& action, const State& state) const;
     void End(const Action& action, StateFactory* fact) const;
+    State Cancel(const Action& target, const State& state) const;
 
   //Getters
   public:

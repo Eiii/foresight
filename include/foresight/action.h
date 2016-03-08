@@ -14,8 +14,8 @@ class Domain;
 class Action {
   //Type aliases
   public:
-    using List = std::vector<Action>;
     using Ptr = std::unique_ptr<Action>;
+    using List = std::vector<Action>;
 
   //Constructors
   public:
