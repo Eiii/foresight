@@ -1,8 +1,11 @@
 #include "foresight/simulator.h"
 
+#include "foresight/cancelaction.h"
 #include "foresight/statefactory.h"
 
 #include <cassert>
+
+using std::make_unique;
 
 namespace fore {
 
@@ -62,6 +65,14 @@ std::vector<Action::Ptr> Simulator::LegalActions(const State& state) const
     std::move(type_actions.begin(), 
               type_actions.end(), 
               std::back_inserter(actions));
+  }
+
+  //Generate cancel actions
+  for (const auto& action : state.running_actions()) {
+    ActionType::Id id = action.type_id();
+    if (domain_.action_type(id).cancelable()) {
+      actions.emplace_back(make_unique<CancelAction>(state.time(), action));
+    }
   }
   return actions;
 }

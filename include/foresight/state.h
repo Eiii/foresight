@@ -25,8 +25,8 @@ class State {
   //Getters
   public:
     int time() const { return time_; }
-    Resource::Amount resources() const { return resources_; }
-    Action::List running_actions() const { return running_actions_; }
+    const Resource::Amount& resources() const { return resources_; }
+    const Action::List& running_actions() const { return running_actions_; }
 
   private:
     //TODO: Time type?

@@ -1,7 +1,12 @@
+2016-03-08
+==========
+* Got cancel action half-implemented- dumb reference bug.
+
 2016-03-07
 ==========
 * Fixed small simulator bug- multiple actions can be started in the same
 timestep now.
+* Added cancelable flag
 
 2016-03-03
 ==========

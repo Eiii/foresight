@@ -19,7 +19,6 @@ class Action {
 
   //Constructors
   public:
-    //`type_id` should be of type `Action::Id`
     Action(ACTIONTYPEID type_id, int time_started);
     virtual ~Action() = default;
     Action(const Action& rhs) = default;
@@ -29,7 +28,7 @@ class Action {
 
   //Public functions
   public:
-    std::string Info(const Domain& domain) const;
+    virtual std::string Info(const Domain& domain) const;
 
   //Operators
   public:
