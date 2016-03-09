@@ -1,3 +1,9 @@
+2016-03-09
+==========
+* Built Model/GP skeletons
+* Finally got bayesopt submodule all working + compiling
+* Starting to add models
+
 2016-03-08
 ==========
 * Got cancel action half-implemented- dumb reference bug.

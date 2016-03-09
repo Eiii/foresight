@@ -1,6 +1,7 @@
 #pragma once
 
 #include "foresight/actiontype.h"
+#include "foresight/model.h"
 
 namespace fore {
 
@@ -11,7 +12,8 @@ class ExperimentActionType : public ActionType {
                          Duration duration, bool cancelable,
                          Resource::Amount requires,
                          Resource::Amount produces,
-                         Resource::Amount upkeep);
+                         Resource::Amount upkeep,
+                         Model::Id model_id);
     virtual ~ExperimentActionType() = default;
     //Forbid copying
     ExperimentActionType(const ExperimentActionType& rhs) = delete;
@@ -30,6 +32,11 @@ class ExperimentActionType : public ActionType {
       End(const Action& action, StateFactory* fact) const override;
     virtual State 
       Cancel(const Action& target, const State& state) const override;
+
+  //Member variables
+  private:
+    Model::Id model_id_;
+
 };
 
 }

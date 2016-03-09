@@ -7,9 +7,11 @@ ExperimentActionType::ExperimentActionType(
   ActionType::Id id, std::string name, Duration duration, bool cancelable,
   Resource::Amount requires, 
   Resource::Amount produces, 
-  Resource::Amount upkeep
+  Resource::Amount upkeep,
+  Model::Id model_id
 ) :
-    ActionType(id, name, duration, cancelable, requires, produces, upkeep) {}
+    ActionType(id, name, duration, cancelable, requires, produces, upkeep),
+    model_id_(model_id) {}
     
 std::vector<Action::Ptr> 
     ExperimentActionType::GenerateActions(const State& state) const

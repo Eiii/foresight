@@ -1,10 +1,18 @@
 #pragma once
 
+#include "foresight/types.h"
+
 namespace fore {
 
 class Model {
-  //Public enum
-  enum class Type { COSINE };
+  //Public type aliases
+  public:
+    using Id = int;
+
+  //Public enums
+  public:
+    enum class Type { COSINE };
+
   //Constructors
   public:
     Model(Type type);
@@ -15,6 +23,10 @@ class Model {
     //Allow moving
     Model(Model&& rhs) = default;
     Model& operator=(Model&& rhs) = default;
+
+  public:
+    Point NextPoint();
+    double MeanAt(Point p);
   
   private:
     Type type_;
