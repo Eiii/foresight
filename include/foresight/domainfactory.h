@@ -20,8 +20,7 @@ class DomainFactory {
   public:
     Domain FinishAndReset();
     void Reset(int horizon, State state);
-    template<typename... Args>
-    void AddActionType(Args&&... args);
+    void AddActionType(ActionType::Ptr&& action_ptr);
     template<typename... Args>
     void AddResource(Args&&... args);
 
@@ -44,14 +43,6 @@ class DomainFactory {
 };
 
 //Template implementations
-template<typename... Args>
-void DomainFactory::AddActionType(Args&&... args)
-{
-  ActionType action_type(std::forward<Args>(args)...);
-  auto id = action_type.id();
-  action_types_.emplace(id, std::move(action_type));
-}
-
 template<typename... Args>
 void DomainFactory::AddResource(Args&&... args)
 {

@@ -15,7 +15,8 @@ class ActionType {
   //Type aliases
   public:
     using Id = int;
-    using Map = std::map<Id, ActionType>;
+    using Ptr = std::unique_ptr<ActionType>;
+    using Map = std::map<Id, ActionType::Ptr>;
 
   //Constructors 
   public:

@@ -23,4 +23,10 @@ void DomainFactory::Reset(int horizon, State state)
   initial_state_ = state; //TODO: Move this?
 }
 
+void DomainFactory::AddActionType(ActionType::Ptr&& action_ptr)
+{
+  auto id = action_ptr->id();
+  action_types_.emplace(id, move(action_ptr));
+}
+
 }

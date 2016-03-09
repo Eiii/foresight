@@ -16,7 +16,7 @@ class ActionTypeFactory {
 
   //Public functions
   public:
-    ActionType Finish() const;
+    virtual ActionType::Ptr Finish() const;
     void Reset(ActionType::Id id, std::string name, Duration duration);
     void SetResourceRequirement(Resource::Id id, int amount);
     void SetResourceProduction(Resource::Id id, int amount);

@@ -26,14 +26,14 @@ string Domain::Info() const
   ss << "Actions:" << endl;
   for (const auto& key : action_types_) {
     const auto& action = key.second;
-    ss << "\t" << action.id() << " / " << action.name();
+    ss << "\t" << action->id() << " / " << action->name();
   }
   return ss.str();
 }
 
 const ActionType& Domain::action_type(ActionType::Id id) const
 {
-  return action_types_.at(id);
+  return *action_types_.at(id);
 }
 
 const Resource& Domain::resource(Resource::Id id) const 

@@ -6,6 +6,10 @@
 namespace fore {
 
 class ExperimentActionType : public ActionType {
+  //Type aliases
+  public:
+    using Ptr = std::unique_ptr<ExperimentActionType>;
+
   //Constructors
   public:
     ExperimentActionType(ActionType::Id id, std::string name,

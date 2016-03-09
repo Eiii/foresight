@@ -53,7 +53,7 @@ State Simulator::BeginAction(const State& state,
 bool Simulator::IsDecisionPoint(const State& state) const
 {
   for (const auto& key : domain_.action_types()) {
-    const auto& atype = key.second;
+    const auto& atype(*key.second);
     if (atype.CanStart(state)) {
       return true;
     }
@@ -63,10 +63,9 @@ bool Simulator::IsDecisionPoint(const State& state) const
 
 std::vector<Action::Ptr> Simulator::LegalActions(const State& state) const
 {
-  (void)state;
   std::vector<Action::Ptr> actions;
   for (const auto& key : domain_.action_types()) {
-    const auto& atype(key.second);
+    const auto& atype(*key.second);
     if (!atype.CanStart(state)) continue;
     auto type_actions(atype.GenerateActions(state));
     std::move(type_actions.begin(), 

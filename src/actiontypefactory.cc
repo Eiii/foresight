@@ -7,10 +7,10 @@ ActionTypeFactory::ActionTypeFactory(int id, std::string name,
     id_(id), name_(name), duration_(duration), cancelable_(false),
     requires_(), produces_(), upkeep_() {}
 
-ActionType ActionTypeFactory::Finish() const
+ActionType::Ptr ActionTypeFactory::Finish() const
 {
-  return ActionType(id_, name_, duration_, cancelable_, 
-                    requires_, produces_, upkeep_);
+  return std::make_unique<ActionType>(id_, name_, duration_, cancelable_, 
+                                      requires_, produces_, upkeep_);
 }
 
 void ActionTypeFactory::Reset(ActionType::Id id, std::string name, 
