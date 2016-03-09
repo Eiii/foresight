@@ -38,7 +38,7 @@ class ActionTypeFactory {
     void set_upkeep(T&& upkeep);
 
   //Member variables
-  private:
+  protected:
     ActionType::Id id_;
     std::string name_;
     Duration duration_;
