@@ -2,7 +2,10 @@
 ==========
 * Got cancel action half-implemented- dumb reference bug.
 * Finished cancellation.
-* TODO: Convert Action::List to list-of-pointers.
+* todo: Convert Action::List to list-of-pointers.
+* Finished the above.
+* TODO: Finish actions w/ upkeep costs
+* Started experiment action
 
 2016-03-07
 ==========
@@ -23,14 +26,14 @@ timestep now.
 2016-02-26
 ==========
 * Added first stab at state transition to simulator.
-* TODO: upkeep costs, action finishing/starting functions
+* todo: upkeep costs, action finishing/starting functions
 
 2016-02-25
 ==========
 * Fixed odd segfault-- member variable was const reference instead of just
 const.
 * Added Action class
-* TODO: I should add a state factory
+* todo: I should add a state factory
 * Added simulator skeleton
 * Added running action list to state
 * Added domain/state factories
