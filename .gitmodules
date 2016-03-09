@@ -4,3 +4,4 @@
 [submodule "bayesopt"]
 	path = bayesopt
 	url = https://github.com/Eiii/bayesopt
+  ignore = untracked
