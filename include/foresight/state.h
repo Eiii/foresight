@@ -11,10 +11,10 @@ class State {
   //Constructors
   public:
     State(int timestep, Resource::Amount resources, 
-          Action::List running_actions);
+          Action::List&& running_actions);
     virtual ~State() = default;
     State(const State& rhs);
-    State& operator=(const State& rhs) = default;
+    State& operator=(const State& rhs);
     State(State&& rhs) = default;
     State& operator=(State&& rhs) = default;
 

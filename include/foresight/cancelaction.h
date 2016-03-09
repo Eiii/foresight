@@ -20,6 +20,7 @@ class CancelAction : public Action {
   //Public functions
   public:
     virtual std::string Info(const Domain& domain) const override;
+    virtual Ptr Clone() const override;
 
   //Operators
   public:

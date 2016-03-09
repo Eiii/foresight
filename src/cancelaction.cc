@@ -17,6 +17,11 @@ std::string CancelAction::Info(const Domain& domain) const
   return ss.str();
 }
 
+Action::Ptr CancelAction::Clone() const
+{
+  return std::make_unique<CancelAction>(*this);
+}
+
 bool CancelAction::operator==(const CancelAction& rhs) const
 {
   return (Action::operator==(rhs)) && (target_ == rhs.target_);

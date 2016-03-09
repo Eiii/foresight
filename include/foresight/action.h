@@ -15,7 +15,7 @@ class Action {
   //Type aliases
   public:
     using Ptr = std::unique_ptr<Action>;
-    using List = std::vector<Action>;
+    using List = std::vector<Ptr>;
 
   //Constructors
   public:
@@ -29,6 +29,7 @@ class Action {
   //Public functions
   public:
     virtual std::string Info(const Domain& domain) const;
+    virtual Ptr Clone() const;
 
   //Operators
   public:

@@ -17,6 +17,11 @@ std::string Action::Info(const Domain& domain) const
   return ss.str();
 }
 
+Action::Ptr Action::Clone() const
+{
+  return std::make_unique<Action>(*this);
+}
+
 bool Action::operator==(const Action& rhs) const
 {
   return (type_id_ == rhs.type_id_ &&

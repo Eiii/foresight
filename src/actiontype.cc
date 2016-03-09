@@ -43,8 +43,8 @@ State ActionType::Start(const Action& action, const State& state) const
   auto res_available = factory.resources() - requires_;
   factory.set_resources(std::move(res_available));
   //Add the action
-  auto actions = state.running_actions();
-  actions.push_back(action);
+  auto actions(copy_actions(state.running_actions()));
+  actions.emplace_back(action.Clone());
   factory.set_running_actions(std::move(actions));
   return factory.Finish();
 }
@@ -65,14 +65,27 @@ State ActionType::Cancel(const Action& target, const State& state) const
   return factory.Finish();
 }
 
+Action::List copy_actions(const fore::Action::List& actions)
+{
+  fore::Action::List list;
+  for (const auto& action_p : actions) {
+    list.emplace_back(action_p->Clone());
+  }
+  return list;
+}
+
 }
 
 static void remove_action(fore::StateFactory* fact, const fore::Action& target)
 {
-  auto actions(fact->running_actions());
-  auto it = std::find(actions.cbegin(), actions.cend(), target);
+  auto actions(copy_actions(fact->running_actions()));
+  auto it(actions.cbegin());
+  for (; it != actions.cend(); ++it) {
+    if (**it == target) break;
+  }
   assert(it != actions.cend());
   actions.erase(it);
   fact->set_running_actions(std::move(actions));
 }
+
 

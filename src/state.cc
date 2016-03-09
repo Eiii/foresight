@@ -5,19 +5,31 @@
 static void show_resource_amounts(std::stringstream* ss, 
                                  fore::Resource::Amount amt);
 static void show_running_actions(std::stringstream* ss, 
-                                 fore::Action::List running);
+                                 const fore::Action::List& running);
 
 namespace fore {
 
 State::State(int time, Resource::Amount resources, 
-             Action::List running_actions) :
+             Action::List&& running_actions) :
     time_(time), resources_(resources), 
-    running_actions_(running_actions) {}
+    running_actions_(std::move(running_actions)) {}
 
 State::State(const State& rhs) :
     time_(rhs.time_), 
     resources_(rhs.resources_),
-    running_actions_(rhs.running_actions_) {}
+    running_actions_() 
+{
+  for (const auto& action_p : rhs.running_actions_) {
+    running_actions_.emplace_back(action_p->Clone());
+  }
+}
+
+State& State::operator=(const State& rhs)
+{
+  State s(rhs);
+  std::swap(*this, s);
+  return *this;
+}
 
 std::string State::Info() const
 {
@@ -43,13 +55,14 @@ void show_resource_amounts(std::stringstream* ss, fore::Resource::Amount amt)
   }
 }
 
-void show_running_actions(std::stringstream* ss, fore::Action::List running)
+void show_running_actions(std::stringstream* ss, 
+                          const fore::Action::List& running)
 {
   if (running.size() == 0) {
     *ss << "\t(None)" << std::endl;
   }
   for (const auto& action : running) {
-    *ss << "\t" << action.type_id() << " - " << action.time_started();
+    *ss << "\t" << action->type_id() << " - " << action->time_started();
     *ss << std::endl;
   }
 }

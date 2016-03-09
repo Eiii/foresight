@@ -56,4 +56,6 @@ class ActionType {
     Resource::Amount upkeep_;
 };
 
+fore::Action::List copy_actions(const fore::Action::List& actions);
+
 }

@@ -37,7 +37,7 @@ fore::Domain create_fake_domain()
   auto horizon(20);
   fore::StateFactory state_fact;
   state_fact.SetResourceAmount(10, 2);
-  state_fact.AddRunningAction(7, 0);
+  //state_fact.AddRunningAction(std::make_unique<fore::Action>(7, 0));
   auto init_state(state_fact.Finish());
 
   fore::DomainFactory domain_fact(horizon, init_state);

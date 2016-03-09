@@ -21,15 +21,15 @@ State Simulator::AdvanceTime(const State& state) const
 
   //Find all finished actions
   Action::List next_actions;
-  for (const auto& action : state.running_actions()) {
-    if (IsActionFinished(action, state)) {
-      const auto& atype(domain_.action_type(action.type_id()));
-      atype.End(action, &state_fact);
+  for (const auto& action_p : state.running_actions()) {
+    if (IsActionFinished(*action_p, state)) {
+      const auto& atype(domain_.action_type(action_p->type_id()));
+      atype.End(*action_p, &state_fact);
     } else {
-      next_actions.emplace_back(action);
+      next_actions.emplace_back(action_p->Clone());
     }
   }
-  state_fact.set_running_actions(next_actions);
+  state_fact.set_running_actions(std::move(next_actions));
 
   return state_fact.Finish();
 }
@@ -75,10 +75,10 @@ std::vector<Action::Ptr> Simulator::LegalActions(const State& state) const
   }
 
   //Generate cancel actions
-  for (const auto& action : state.running_actions()) {
-    ActionType::Id id = action.type_id();
+  for (const auto& action_p : state.running_actions()) {
+    ActionType::Id id = action_p->type_id();
     if (domain_.action_type(id).cancelable()) {
-      actions.emplace_back(make_unique<CancelAction>(state.time(), action));
+      actions.emplace_back(make_unique<CancelAction>(state.time(), *action_p));
     }
   }
   return actions;

@@ -1,5 +1,7 @@
 #include "foresight/statefactory.h"
 
+#include "foresight/actiontype.h"
+
 namespace fore {
 
 StateFactory::StateFactory() :
@@ -8,14 +10,14 @@ StateFactory::StateFactory() :
 StateFactory::StateFactory(const State& state) :
     time_(state.time()), 
     resources_(state.resources()), 
-    running_actions_(state.running_actions()) {}
+    running_actions_(copy_actions(state.running_actions())) {}
 
 StateFactory::StateFactory(int time) :
     time_(time), resources_(), running_actions_() {}
 
 State StateFactory::Finish() const
 {
-  return State(time_, resources_, running_actions_);
+  return State(time_, resources_, copy_actions(running_actions_));
 }
 
 void StateFactory::Reset()
@@ -29,7 +31,7 @@ void StateFactory::Copy(const State& state)
 {
   time_ = state.time();
   resources_ = state.resources();
-  running_actions_ = state.running_actions();
+  running_actions_ = copy_actions(state.running_actions());
 }
 
 void StateFactory::SetResourceAmount(Resource::Id id, int amount)
