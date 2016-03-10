@@ -26,7 +26,7 @@ string Domain::Info() const
   ss << "Actions:" << endl;
   for (const auto& key : action_types_) {
     const auto& action = key.second;
-    ss << "\t" << action->id() << " / " << action->name();
+    ss << "\t" << action->id() << " / " << action->name() << endl;
   }
   return ss.str();
 }

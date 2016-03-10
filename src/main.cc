@@ -3,6 +3,7 @@
 #include "foresight/actiontypefactory.h"
 #include "foresight/arbiter.h"
 #include "foresight/domainfactory.h"
+#include "foresight/experimentactiontypefactory.h"
 #include "foresight/resource.h"
 #include "foresight/statefactory.h"
 #include "foresight/policies/human.h"
@@ -37,16 +38,23 @@ fore::Domain create_fake_domain()
   auto horizon(20);
   fore::StateFactory state_fact;
   state_fact.SetResourceAmount(10, 2);
-  //state_fact.AddRunningAction(std::make_unique<fore::Action>(7, 0));
+  state_fact.SetResourceAmount(11, 1);
   auto init_state(state_fact.Finish());
 
   fore::DomainFactory domain_fact(horizon, init_state);
-  fore::ActionTypeFactory action_fact(7, "Process A", 4);
-  action_fact.set_cancelable(true);
-  action_fact.SetResourceRequirement(10, 1);
+  fore::ActionTypeFactory action_fact(7, "Produce A", 4);
+  action_fact.SetResourceRequirement(11, 1);
   action_fact.SetResourceProduction(10, 1);
+  action_fact.SetResourceProduction(11, 1);
+
+  fore::ExperimentActionTypeFactory exp_act_fact(8, "Experiment A", 4, 0);
+  exp_act_fact.set_cancelable(true);
+  exp_act_fact.SetResourceRequirement(10, 1);
+
+  domain_fact.AddActionType(exp_act_fact.Finish());
   domain_fact.AddActionType(action_fact.Finish());
-  domain_fact.AddResource(10, "ResA");
+  domain_fact.AddResource(10, "Resource A");
+  domain_fact.AddResource(11, "Labs");
 
   return domain_fact.FinishAndReset();
 }

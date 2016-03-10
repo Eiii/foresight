@@ -1,5 +1,7 @@
 #include "foresight/experimentactiontype.h"
 
+#include <iostream>
+
 namespace fore {
 
 //TODO: Add model info

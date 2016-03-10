@@ -1,8 +1,15 @@
+2016-03-10
+==========
+* Changed test domain to have an experiment action.
+* Fixed small display bug in domain's info.
+
 2016-03-09
 ==========
 * Built Model/GP skeletons
 * Finally got bayesopt submodule all working + compiling
 * Starting to add models
+* Added experiment action type + factory
+* TODO: Complete action type stuff once models are done.
 
 2016-03-08
 ==========
