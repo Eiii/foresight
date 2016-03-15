@@ -1,5 +1,7 @@
 #include "foresight/experimentactiontype.h"
 
+#include "foresight/statefactory.h"
+
 #include <iostream>
 
 namespace fore {
@@ -24,11 +26,16 @@ std::vector<Action::Ptr>
   return ActionType::GenerateActions(state);
 }
 
-State ExperimentActionType::Start(
-    const Action& action, const State& state) const
+State ExperimentActionType::Start(const Action& action, 
+                                  const State& state) const
 {
-  //TODO: Update model w/ false observation
-  return ActionType::Start(action, state);
+  auto base_state(ActionType::Start(action, state));
+  //TODO: Make a base
+  StateFactory fact(base_state);
+
+  //TODO: Get point from action
+  Point input_point;
+  return fact.Finish();
 }
 
 void ExperimentActionType::End(const Action& action, StateFactory* fact) const
@@ -39,8 +46,8 @@ void ExperimentActionType::End(const Action& action, StateFactory* fact) const
   ActionType::End(action, fact);
 }
 
-State ExperimentActionType::Cancel(
-    const Action& target, const State& state) const
+State ExperimentActionType::Cancel(const Action& target, 
+                                   const State& state) const
 {
   return ActionType::Cancel(target, state);
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <map>
+
 #include "foresight/types.h"
 
 namespace fore {
@@ -8,6 +10,7 @@ class Model {
   //Public type aliases
   public:
     using Id = int;
+    using ObsMap = std::map<Id, ObsList>;
 
   //Public enums
   public:

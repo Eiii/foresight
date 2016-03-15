@@ -1,4 +1,5 @@
 #include "foresight/state.h"
+#include "foresight/actiontype.h"
 
 #include <sstream>
 
@@ -10,18 +11,20 @@ static void show_running_actions(std::stringstream* ss,
 namespace fore {
 
 State::State(int time, Resource::Amount resources, 
-             Action::List&& running_actions) :
+             Action::List&& running_actions,
+             Model::ObsMap obs, Model::ObsMap false_obs) :
     time_(time), resources_(resources), 
-    running_actions_(std::move(running_actions)) {}
+    running_actions_(std::move(running_actions)),
+    observations_(obs), false_observations_(false_obs) {}
 
 State::State(const State& rhs) :
     time_(rhs.time_), 
     resources_(rhs.resources_),
-    running_actions_() 
+    running_actions_(),
+    observations_(rhs.observations_),
+    false_observations_(rhs.false_observations_)
 {
-  for (const auto& action_p : rhs.running_actions_) {
-    running_actions_.emplace_back(action_p->Clone());
-  }
+  running_actions_ = copy_actions(rhs.running_actions_);
 }
 
 State& State::operator=(const State& rhs)
