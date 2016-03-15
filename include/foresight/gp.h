@@ -29,6 +29,8 @@ class GP {
   //Public methods
   public:
     Point CalculateBestPoint() const;
+    double CalculateMean(Point p) const;
+    double SimulatedResponse(Point p) const;
 };
 
 }

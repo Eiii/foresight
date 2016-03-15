@@ -22,4 +22,16 @@ Point GP::CalculateBestPoint() const
   return p;
 }
 
+double GP::CalculateMean(Point p) const
+{
+  (void)p;
+  return 0.0;
+}
+
+double GP::SimulatedResponse(Point p) const
+{
+  (void)p;
+  return 0.0;
+}
+
 }

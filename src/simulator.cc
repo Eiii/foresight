@@ -24,7 +24,7 @@ State Simulator::AdvanceTime(const State& state) const
   for (const auto& action_p : state.running_actions()) {
     if (IsActionFinished(*action_p, state)) {
       const auto& atype(domain_.action_type(action_p->type_id()));
-      atype.End(*action_p, &state_fact);
+      atype.End(*action_p, domain_, state, &state_fact);
     } else {
       next_actions.emplace_back(action_p->Clone());
     }
@@ -45,7 +45,7 @@ State Simulator::BeginAction(const State& state,
   } else {
     assert(action.time_started() == state.time());
     const auto& atype(domain_.action_type(action.type_id()));
-    const auto result_state(atype.Start(action, state));
+    const auto result_state(atype.Start(action, domain_, state));
     return result_state;
   }
 }

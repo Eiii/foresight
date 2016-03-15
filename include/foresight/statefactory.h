@@ -26,6 +26,7 @@ class StateFactory {
     void AddRunningAction(Args&&... args);
     void AddObservation(Model::Id id, Point p, double result);
     void AddFalseObservation(Model::Id id, Point p, double result);
+    void RemoveFalseObservation(Model::Id id, Point p, double result);
 
   //Getters
   public:

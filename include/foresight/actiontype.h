@@ -37,8 +37,10 @@ class ActionType {
     bool CanStart(const State& state) const;
     virtual std::vector<Action::Ptr> 
       GenerateActions(const State& state, const Domain& domain) const;
-    virtual State Start(const Action& action, const State& state) const;
-    virtual void End(const Action& action, StateFactory* fact) const;
+    virtual State Start(const Action& action, const Domain& domain, 
+                        const State& state) const;
+    virtual void End(const Action& action, const Domain& domain,
+                     const State& state, StateFactory* fact) const;
     virtual State Cancel(const Action& target, const State& state) const;
 
   //Getters

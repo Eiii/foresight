@@ -7,11 +7,13 @@
 namespace fore {
 
 ExperimentAction::ExperimentAction(ActionType::Id type_id, int time_started, 
-                                   Point input_point) :
-    Action(type_id, time_started), input_point_(input_point) {}
+                                   Point input_point, double false_res) :
+    Action(type_id, time_started), input_point_(input_point), 
+    false_result_(false_res) {}
 
-ExperimentAction::ExperimentAction(const Action& rhs, Point input_point) :
-    Action(rhs), input_point_(input_point) {}
+ExperimentAction::ExperimentAction(const Action& rhs, Point input_point, 
+                                   double false_result) :
+    Action(rhs), input_point_(input_point), false_result_(false_result) {}
 
 std::string ExperimentAction::Info(const Domain& domain) const
 {

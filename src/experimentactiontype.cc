@@ -38,31 +38,49 @@ std::vector<Action::Ptr> ExperimentActionType::GenerateActions(
   const auto& model(domain.model(model_id_));
   auto gp(GP::GetGP(model, state));
   auto best_point(gp.CalculateBestPoint());
+  double false_result(gp.CalculateMean(best_point));
 
   //TODO: Build/return resultant action 
   std::vector<Action::Ptr> final_actions;
-  auto final_action(make_unique<ExperimentAction>(*base_action, best_point));
+  auto final_action(
+      make_unique<ExperimentAction>(*base_action, best_point, false_result)
+  );
   final_actions.emplace_back(std::move(final_action));
 
   return final_actions;
 }
 
-State ExperimentActionType::Start(const Action& action, 
-                                  const State& state) const
+State ExperimentActionType::Start(
+  const Action& action, const Domain& domain, const State& state
+) const
 {
-  auto base_state(ActionType::Start(action, state));
+  auto base_state(ActionType::Start(action, domain, state));
   StateFactory fact(base_state);
 
-  //TODO: Get point from action
+  const auto& exp_action(static_cast<const ExperimentAction&>(action));
+  auto input_point(exp_action.input_point());
+  auto false_result(exp_action.false_result());
+  fact.AddFalseObservation(model_id_, input_point, false_result);
+
   return fact.Finish();
 }
 
-void ExperimentActionType::End(const Action& action, StateFactory* fact) const
+void ExperimentActionType::End(
+  const Action& action, const Domain& domain, const State& state,
+  StateFactory* fact
+) const
 {
-  //TODO: 'base' End
-  //TODO: Remove false observation
-  //TODO: Calculate+add model observation
-  ActionType::End(action, fact);
+  ActionType::End(action, domain, state, fact);
+
+  const auto& exp_action(static_cast<const ExperimentAction&>(action));
+  auto input_point(exp_action.input_point());
+  fact->RemoveFalseObservation(model_id_, input_point,
+                               exp_action.false_result());
+
+  const auto& model(domain.model(model_id_));
+  auto gp(GP::GetGP(model, state));
+  auto real_result(gp.SimulatedResponse(input_point));
+  fact->AddObservation(model_id_, input_point, real_result);
 }
 
 State ExperimentActionType::Cancel(const Action& target, 

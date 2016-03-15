@@ -2,6 +2,9 @@
 
 #include "foresight/actiontype.h"
 
+#include <algorithm>
+#include <cassert>
+
 using std::make_pair;
 
 namespace fore {
@@ -53,6 +56,15 @@ void StateFactory::AddObservation(Model::Id id, Point p, double result)
 void StateFactory::AddFalseObservation(Model::Id id, Point p, double result)
 {
   false_observations_[id].emplace_back(make_pair(p, result));
+}
+
+void StateFactory::RemoveFalseObservation(Model::Id id, Point p, double result)
+{
+  auto& false_obs = false_observations_[id];
+  auto obs = std::make_pair(p, result);
+  const auto obs_it = std::find(false_obs.cbegin(), false_obs.cend(), obs);
+  assert(obs_it != false_obs.cend());
+  false_obs.erase(obs_it);
 }
 
 }

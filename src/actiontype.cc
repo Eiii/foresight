@@ -34,8 +34,10 @@ std::vector<Action::Ptr> ActionType::GenerateActions(
   return actions;
 }
 
-State ActionType::Start(const Action& action, const State& state) const
+State ActionType::Start(const Action& action, const Domain& domain, 
+                        const State& state) const
 {
+  (void)domain;
   //Verify we actually have enough resources to start the action
   assert(has_enough(state.resources(), requires_));
   StateFactory factory(state);
@@ -49,8 +51,10 @@ State ActionType::Start(const Action& action, const State& state) const
   return factory.Finish();
 }
 
-void ActionType::End(const Action& action, StateFactory* fact) const
+void ActionType::End(const Action& action, const Domain& domain, 
+                     const State& state, StateFactory* fact) const
 {
+  (void)domain; (void)state;
   auto current_resources(fact->resources());
   //Add produced resources
   fact->set_resources(current_resources + produces_);

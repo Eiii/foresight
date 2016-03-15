@@ -31,9 +31,11 @@ class ExperimentActionType : public ActionType {
     virtual std::vector<Action::Ptr> 
       GenerateActions(const State& state, const Domain& domain) const override;
     virtual State 
-      Start(const Action& action, const State& state) const override;
+      Start(const Action& action, const Domain& domain, 
+            const State& state) const override;
     virtual void 
-      End(const Action& action, StateFactory* fact) const override;
+      End(const Action& action, const Domain& domain,
+          const State& state, StateFactory* fact) const override;
     virtual State 
       Cancel(const Action& target, const State& state) const override;
 
