@@ -1,3 +1,7 @@
+2016-03-14
+==========
+* Finished adding observations to state from before
+
 2016-03-10
 ==========
 * Changed test domain to have an experiment action.

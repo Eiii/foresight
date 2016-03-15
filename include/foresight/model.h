@@ -10,6 +10,7 @@ class Model {
   //Public type aliases
   public:
     using Id = int;
+    using Map = std::map<Id, Model>;
     using ObsMap = std::map<Id, ObsList>;
 
   //Public enums
@@ -18,7 +19,7 @@ class Model {
 
   //Constructors
   public:
-    Model(Type type);
+    Model(Id id, Type type);
     virtual ~Model() = default;
     //Forbid copying
     Model(const Model& rhs) = delete;
@@ -27,11 +28,12 @@ class Model {
     Model(Model&& rhs) = default;
     Model& operator=(Model&& rhs) = default;
 
+  //Getters
   public:
-    Point NextPoint();
-    double MeanAt(Point p);
+    Id id() const { return id_; }
   
   private:
+    Id id_;
     Type type_;
 };
 

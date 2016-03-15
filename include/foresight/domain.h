@@ -1,6 +1,7 @@
 #pragma once
 
 #include "foresight/actiontype.h"
+#include "foresight/model.h"
 #include "foresight/resource.h"
 #include "foresight/state.h"
 
@@ -11,7 +12,7 @@ namespace fore {
 class Domain {
   public:
     Domain(ActionType::Map&& actions, Resource::Map&& resources, 
-           int horizon, State init_state);
+           Model::Map&& models, int horizon, State init_state);
     virtual ~Domain() = default;
     //Forbid copying
     Domain(const Domain& other) = delete;
@@ -28,6 +29,7 @@ class Domain {
   public:
     const ActionType& action_type(ActionType::Id id) const;
     const Resource& resource(Resource::Id id) const;
+    const Model& model(Model::Id id) const;
 
   //Getters
   public:
@@ -39,6 +41,7 @@ class Domain {
   private:
     ActionType::Map action_types_;
     Resource::Map resources_;
+    Model::Map models_;
     int horizon_; //TODO: Timestep alias?
     const State initial_state_;
 };

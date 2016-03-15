@@ -9,9 +9,10 @@ using std::endl;
 namespace fore {
 
 Domain::Domain(ActionType::Map&& action_types, Resource::Map&& resources, 
-               int horizon, State init_state) :
+               Model::Map&& models, int horizon, State init_state) :
     action_types_(move(action_types)),
     resources_(move(resources)),
+    models_(move(models)),
     horizon_(horizon),
     initial_state_(init_state) {}
 
@@ -39,6 +40,11 @@ const ActionType& Domain::action_type(ActionType::Id id) const
 const Resource& Domain::resource(Resource::Id id) const 
 {
   return resources_.at(id);
+}
+
+const Model& Domain::model(Model::Id id) const 
+{
+  return models_.at(id);
 }
 
 }

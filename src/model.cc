@@ -2,7 +2,7 @@
 
 namespace fore {
 
-Model::Model(Model::Type type) :
-    type_(type) {}
+Model::Model(Model::Id id, Model::Type type) :
+    id_(id), type_(type) {}
 
 }

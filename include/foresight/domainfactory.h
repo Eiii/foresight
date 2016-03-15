@@ -21,6 +21,7 @@ class DomainFactory {
     Domain FinishAndReset();
     void Reset(int horizon, State state);
     void AddActionType(ActionType::Ptr&& action_ptr);
+    void AddModel(Model&& model);
     template<typename... Args>
     void AddResource(Args&&... args);
 
@@ -32,12 +33,15 @@ class DomainFactory {
     template<typename T>
     void set_resources(T&& resources);
     template<typename T>
+    void set_models(T&& models);
+    template<typename T>
     void set_initial_state(T&& state);
 
   //Member variables
   private:
     ActionType::Map action_types_;
     Resource::Map resources_;
+    Model::Map models_;
     int horizon_;
     State initial_state_;
 };
@@ -61,6 +65,12 @@ template<typename T>
 void DomainFactory::set_resources(T&& resources)
 {
   resources_ = std::forward<T>(resources);
+}
+
+template<typename T>
+void DomainFactory::set_models(T&& models)
+{
+  resources_ = std::forward<T>(models);
 }
 
 template<typename T>

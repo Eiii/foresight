@@ -1,8 +1,9 @@
 #pragma once
 
-namespace fore {
+#include "foresight/domain.h"
+#include "foresight/model.h"
 
-class Model;
+namespace fore {
 
 class GP {
   //Constructor
