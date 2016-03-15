@@ -67,7 +67,7 @@ std::vector<Action::Ptr> Simulator::LegalActions(const State& state) const
   for (const auto& key : domain_.action_types()) {
     const auto& atype(*key.second);
     if (!atype.CanStart(state)) continue;
-    auto type_actions(atype.GenerateActions(state));
+    auto type_actions(atype.GenerateActions(state, domain_));
     std::move(type_actions.begin(), 
               type_actions.end(), 
               std::back_inserter(actions));

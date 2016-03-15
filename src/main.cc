@@ -47,7 +47,7 @@ fore::Domain create_fake_domain()
   action_fact.SetResourceProduction(10, 1);
   action_fact.SetResourceProduction(11, 1);
 
-  fore::ExperimentActionTypeFactory exp_act_fact(8, "Experiment A", 4, 0);
+  fore::ExperimentActionTypeFactory exp_act_fact(8, "Experiment A", 4, 100);
   exp_act_fact.set_cancelable(true);
   exp_act_fact.SetResourceRequirement(10, 1);
 

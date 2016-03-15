@@ -29,7 +29,7 @@ class ExperimentActionType : public ActionType {
   //Public functions
   public:
     virtual std::vector<Action::Ptr> 
-      GenerateActions(const State& state) const override;
+      GenerateActions(const State& state, const Domain& domain) const override;
     virtual State 
       Start(const Action& action, const State& state) const override;
     virtual void 

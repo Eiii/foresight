@@ -24,11 +24,11 @@ bool ActionType::CanStart(const State& state) const
   return has_enough(available, requires_);
 }
 
-std::vector<Action::Ptr> ActionType::GenerateActions
-(
-    const State& state
+std::vector<Action::Ptr> ActionType::GenerateActions(
+    const State& state, const Domain& domain
 ) const
 {
+  (void)domain;
   std::vector<Action::Ptr> actions;
   actions.emplace_back(std::make_unique<Action>(id_, state.time()));
   return actions;

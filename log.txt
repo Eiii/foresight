@@ -1,6 +1,8 @@
 2016-03-14
 ==========
 * Finished adding observations to state from before
+* Added models to domain
+* TODO: Pretty up the domain info string
 
 2016-03-10
 ==========
