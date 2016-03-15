@@ -1,11 +1,14 @@
 #include "foresight/experimentactiontype.h"
 
+#include "foresight/experimentaction.h"
 #include "foresight/domain.h"
 #include "foresight/gp.h"
 #include "foresight/statefactory.h"
 
 #include <cassert>
 #include <iostream>
+
+using std::make_unique;
 
 namespace fore {
 
@@ -34,11 +37,12 @@ std::vector<Action::Ptr> ExperimentActionType::GenerateActions(
   //TODO: Calculate best input point on model
   const auto& model(domain.model(model_id_));
   auto gp(GP::GetGP(model, state));
-  auto best_point = gp.CalculateBestPoint();
+  auto best_point(gp.CalculateBestPoint());
 
   //TODO: Build/return resultant action 
   std::vector<Action::Ptr> final_actions;
-  final_actions.emplace_back(base_action->Clone());
+  auto final_action(make_unique<ExperimentAction>(*base_action, best_point));
+  final_actions.emplace_back(std::move(final_action));
 
   return final_actions;
 }
@@ -47,11 +51,9 @@ State ExperimentActionType::Start(const Action& action,
                                   const State& state) const
 {
   auto base_state(ActionType::Start(action, state));
-  //TODO: Make a base
   StateFactory fact(base_state);
 
   //TODO: Get point from action
-  Point input_point;
   return fact.Finish();
 }
 
