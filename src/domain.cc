@@ -29,6 +29,11 @@ string Domain::Info() const
     const auto& action = key.second;
     ss << "\t" << action->id() << " / " << action->name() << endl;
   }
+  ss << "Models:" << endl;
+  for (const auto& key : models_) {
+    const auto& model = key.second;
+    ss << "\t" << model.id() << endl;
+  }
   return ss.str();
 }
 

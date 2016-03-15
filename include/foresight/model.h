@@ -31,6 +31,7 @@ class Model {
   //Getters
   public:
     Id id() const { return id_; }
+    Type type() const { return type_; }
   
   private:
     Id id_;

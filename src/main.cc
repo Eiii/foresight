@@ -51,10 +51,13 @@ fore::Domain create_fake_domain()
   exp_act_fact.set_cancelable(true);
   exp_act_fact.SetResourceRequirement(10, 1);
 
+  fore::Model m(100, fore::Model::Type::COSINE);
+
   domain_fact.AddActionType(exp_act_fact.Finish());
   domain_fact.AddActionType(action_fact.Finish());
   domain_fact.AddResource(10, "Resource A");
   domain_fact.AddResource(11, "Labs");
+  domain_fact.AddModel(std::move(m));
 
   return domain_fact.FinishAndReset();
 }
