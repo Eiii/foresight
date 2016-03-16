@@ -5,13 +5,15 @@
 #include "foresight/state.h"
 #include "foresight/types.h"
 
+#include "foresight/bayesopt/custommodel.h"
+
 namespace fore {
 
 class GP {
   //Constructors
-  private:
-    //Only allow construction through factory method
-    GP(const Model& model, const State& state);
+  public: //TODO: Why can't this be private?
+    //Ideally only allow construction through factory method
+    GP(CustomModel::Function fn, const Model& model, const State& state);
   public:
     virtual ~GP() = default;
   public:
@@ -24,13 +26,21 @@ class GP {
 
   //Class methods
   public:
-    static GP GetGP(const Model& model, const State& state);
+    static std::shared_ptr<GP> GetGP(const Model& model, const State& state);
 
   //Public methods
   public:
     Point CalculateBestPoint() const;
     double CalculateMean(Point p) const;
     double SimulatedResponse(Point p) const;
+
+  //Private methods
+  private:
+    void InitializeModel(const Model& model, const State& state);
+
+  //Member functions
+  private:
+    mutable CustomModel model_; //TODO: I wish this wasn't necessary
 };
 
 }

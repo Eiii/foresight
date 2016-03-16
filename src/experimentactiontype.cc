@@ -37,8 +37,8 @@ std::vector<Action::Ptr> ExperimentActionType::GenerateActions(
   //TODO: Calculate best input point on model
   const auto& model(domain.model(model_id_));
   auto gp(GP::GetGP(model, state));
-  auto best_point(gp.CalculateBestPoint());
-  double false_result(gp.CalculateMean(best_point));
+  auto best_point(gp->CalculateBestPoint());
+  double false_result(gp->CalculateMean(best_point));
 
   //TODO: Build/return resultant action 
   std::vector<Action::Ptr> final_actions;
@@ -79,7 +79,7 @@ void ExperimentActionType::End(
 
   const auto& model(domain.model(model_id_));
   auto gp(GP::GetGP(model, state));
-  auto real_result(gp.SimulatedResponse(input_point));
+  auto real_result(gp->SimulatedResponse(input_point));
   fact->AddObservation(model_id_, input_point, real_result);
 }
 

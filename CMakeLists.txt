@@ -31,5 +31,5 @@ include_directories( ${PROJ_INCLUDES} )
 include_directories( SYSTEM ${BAYESOPT_INCLUDES} )
 add_library( ${PROJ_NAME} ${PROJ_SOURCES} )
 add_executable( ${PROJ_EXE} "src/main.cc" )
-target_link_libraries( ${PROJ_EXE} ${PROJ_NAME} )
+target_link_libraries( ${PROJ_EXE} ${PROJ_NAME} bayesopt )
 

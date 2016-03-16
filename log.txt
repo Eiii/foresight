@@ -5,6 +5,8 @@
 * TODO: Pretty up the domain info string
 * Started filling out GP
 * Added experiment action, finally.
+* Finished experiment action type begin/end
+* TODO: Finish GP skeleton
 
 2016-03-10
 ==========
