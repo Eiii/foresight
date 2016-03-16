@@ -1,3 +1,8 @@
+2016-03-15
+==========
+* Finished GP skeleton, bayesopt interface
+* TODO: Make sure it actually works as expected 
+
 2016-03-14
 ==========
 * Finished adding observations to state from before
@@ -6,7 +11,7 @@
 * Started filling out GP
 * Added experiment action, finally.
 * Finished experiment action type begin/end
-* TODO: Finish GP skeleton
+* todo: Finish GP skeleton
 
 2016-03-10
 ==========
@@ -19,7 +24,7 @@
 * Finally got bayesopt submodule all working + compiling
 * Starting to add models
 * Added experiment action type + factory
-* TODO: Complete action type stuff once models are done.
+* todo: Complete action type stuff once models are done.
 
 2016-03-08
 ==========
