@@ -65,6 +65,13 @@ vecOfvec CustomModel::DefaultValidSet()
 {
   //TODO: fill me!
   vecOfvec valid_set;
+  for (double x = -1.0; x <= 1.0; x += 0.1) {
+    for (double y = -1.0; y < 1.0; y += 0.1) {
+      vectord pt(2);
+      pt[0] = x; pt[1] = y;
+      valid_set.push_back(pt);
+    }
+  }
   return valid_set;
 }
 
