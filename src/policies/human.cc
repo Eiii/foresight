@@ -10,7 +10,7 @@ using std::endl;
 namespace fore {
 
 HumanPolicy::HumanPolicy(const Domain& domain) :
-    Policy(domain), simulator_(domain) {}
+    SimulatorPolicy(domain) {}
 
 Action::Ptr HumanPolicy::SelectAction(const State& state)
 {

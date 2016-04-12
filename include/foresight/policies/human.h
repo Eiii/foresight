@@ -1,11 +1,10 @@
 #pragma once
 
-#include "foresight/policy.h"
-#include "foresight/simulator.h"
+#include "foresight/policies/simulator.h"
 
 namespace fore {
 
-class HumanPolicy : public Policy {
+class HumanPolicy : public SimulatorPolicy {
   //Constructors
   public:
     HumanPolicy(const Domain& domain);
@@ -18,10 +17,6 @@ class HumanPolicy : public Policy {
   //Public functions
   public:
     Action::Ptr SelectAction(const State& state) override;
-
-  //Private members
-  private:
-    Simulator simulator_;
 };
 
 }
