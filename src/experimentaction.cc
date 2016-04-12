@@ -18,7 +18,7 @@ ExperimentAction::ExperimentAction(const Action& rhs, Point input_point,
 std::string ExperimentAction::Info(const Domain& domain) const
 {
   std::stringstream ss;
-  ss << Action::Info(domain) << " - EXP";
+  ss << Action::Info(domain) << ": " << input_point_ << ", " << false_result_;
   return ss.str();
 }
 

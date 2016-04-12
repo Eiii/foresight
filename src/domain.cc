@@ -22,12 +22,12 @@ string Domain::Info() const
   ss << "Resources:" << endl;
   for (const auto& key : resources_) {
     const auto& res = key.second;
-    ss << "\t" << res.id() << " / " << res.name() << endl;
+    ss << "\t" << res.name() << " / " << res.id() << endl;
   }
   ss << "Actions:" << endl;
   for (const auto& key : action_types_) {
     const auto& action = key.second;
-    ss << "\t" << action->id() << " / " << action->name() << endl;
+    ss << "\t" << action->name() << " / " << action->id() << endl;
   }
   ss << "Models:" << endl;
   for (const auto& key : models_) {

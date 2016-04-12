@@ -16,18 +16,18 @@ void Arbiter::Optimize() const
   cout << "Starting optimization..." << endl;
   cout << domain_.Info() << endl;
   auto state(domain_.initial_state());
-  cout << state.Info() << endl;
+  cout << state.Info(domain_) << endl;
 
   while (!IsHorizonReached(state)) {
     while (simulator_.IsDecisionPoint(state)) {
-      cout << state.Info() << endl;
+      cout << state.Info(domain_) << endl;
       auto action_ptr(policy_->SelectAction(state));
       state = simulator_.BeginAction(state, *action_ptr);
     }
-    cout << state.Info() << endl;
+    cout << state.Info(domain_) << endl;
     state = simulator_.AdvanceTime(state);
   }
-  cout << state.Info() << endl;
+  cout << state.Info(domain_) << endl;
   cout << "Finished!" << endl;
 }
 

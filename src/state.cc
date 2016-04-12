@@ -1,12 +1,15 @@
 #include "foresight/state.h"
 #include "foresight/actiontype.h"
+#include "foresight/domain.h"
 
 #include <sstream>
 
 static void show_resource_amounts(std::stringstream* ss, 
-                                 fore::Resource::Amount amt);
+                                 fore::Resource::Amount amt,
+                                 const fore::Domain& domain);
 static void show_running_actions(std::stringstream* ss, 
-                                 const fore::Action::List& running);
+                                 const fore::Action::List& running,
+                                 const fore::Domain& domain);
 
 namespace fore {
 
@@ -34,38 +37,41 @@ State& State::operator=(const State& rhs)
   return *this;
 }
 
-std::string State::Info() const
+std::string State::Info(const Domain& domain) const
 {
   std::stringstream ss;
   ss << "Time: " << time_ << std::endl;
   ss << "Resources: " << std::endl;
-  show_resource_amounts(&ss, resources_);
+  show_resource_amounts(&ss, resources_, domain);
   ss << "Running actions: " << std::endl;
-  show_running_actions(&ss, running_actions_);
+  show_running_actions(&ss, running_actions_, domain);
   //TODO: Observations?
   return ss.str();
 }
 
 }
 
-void show_resource_amounts(std::stringstream* ss, fore::Resource::Amount amt)
+void show_resource_amounts(std::stringstream* ss, fore::Resource::Amount amt,
+                           const fore::Domain& domain)
 {
   if (amt.size() == 0) {
     *ss << "\t(None)" << std::endl;
   }
   for (const auto& key : amt) {
-    *ss << "\t" << key.first << ": " << key.second << std::endl; 
+    *ss << "\t" << domain.resource(key.first).name() << ": ";
+    *ss << key.second << std::endl; 
   }
 }
 
 void show_running_actions(std::stringstream* ss, 
-                          const fore::Action::List& running)
+                          const fore::Action::List& running,
+                          const fore::Domain& domain)
 {
   if (running.size() == 0) {
     *ss << "\t(None)" << std::endl;
   }
   for (const auto& action : running) {
-    *ss << "\t" << action->type_id() << " - " << action->time_started();
+    *ss << "\t" << action->Info(domain) << " @ " << action->time_started();
     *ss << std::endl;
   }
 }
