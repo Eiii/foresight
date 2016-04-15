@@ -10,7 +10,7 @@ using std::endl;
 namespace fore {
 
 HumanPolicy::HumanPolicy(const Domain& domain) :
-    SimulatorPolicy(domain) {}
+    Policy(domain) {}
 
 Action::Ptr HumanPolicy::SelectAction(const State& state)
 {
@@ -20,7 +20,7 @@ Action::Ptr HumanPolicy::SelectAction(const State& state)
   cout << "Legal actions: " << endl;
   for (const auto& action_ptr : legal_actions) {
     cout << "\t" << ++idx_id << ": "; 
-    cout << action_ptr->Info(domain()) << endl;
+    cout << action_ptr->Info(domain_) << endl;
   }
   //Get key from user
   int choice;

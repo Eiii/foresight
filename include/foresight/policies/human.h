@@ -1,10 +1,10 @@
 #pragma once
 
-#include "foresight/policies/simulator.h"
+#include "foresight/policy.h"
 
 namespace fore {
 
-class HumanPolicy : public SimulatorPolicy {
+class HumanPolicy : public Policy {
   //Constructors
   public:
     HumanPolicy(const Domain& domain);

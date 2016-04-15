@@ -3,6 +3,6 @@
 namespace fore {
 
 Policy::Policy(const Domain& domain) :
-    domain_(domain) { };
+    domain_(domain), simulator_(domain_) { };
 
 }

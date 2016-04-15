@@ -1,6 +1,7 @@
 #pragma once
 
 #include "foresight/domain.h"
+#include "foresight/simulator.h"
 
 #include <memory>
 
@@ -24,13 +25,10 @@ class Policy {
   public:
     virtual std::unique_ptr<Action> SelectAction(const State& state) = 0;
 
-  //Protected getters
+  //Protected member variables
   protected:
-    const auto& domain() const { return domain_; }
-
-  //Private member variables
-  private:
     const Domain& domain_;
+    Simulator simulator_;
 };
 
 }
