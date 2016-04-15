@@ -7,6 +7,8 @@
 #include "foresight/resource.h"
 #include "foresight/statefactory.h"
 #include "foresight/policies/human.h"
+#include "foresight/policies/random.h"
+#include "foresight/policies/pair.h"
 
 #include <iostream>
 
@@ -19,7 +21,11 @@ int main()
   //TODO: Load domain
   auto domain(create_fake_domain());
   //TODO: Initialize real world
-  auto policy(std::make_unique<fore::HumanPolicy>(domain));
+  auto exp(std::make_unique<fore::RandomPolicy>(domain));
+  auto res(std::make_unique<fore::RandomPolicy>(domain));
+  auto policy(std::make_unique<fore::PairPolicy>(
+        domain, std::move(exp), std::move(res))
+  );
   //TODO: Create arbiter
   fore::Arbiter arbiter(domain, std::move(policy));
   //TODO: Run optimization

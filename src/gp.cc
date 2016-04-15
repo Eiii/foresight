@@ -6,8 +6,8 @@
 
 using std::make_shared;
 
-static vectord point_to_vec(fore::Point p);
-static fore::Point vec_to_point(vectord v);
+static vectord point_to_vec(const fore::Point& p);
+static fore::Point vec_to_point(const vectord& v);
 
 namespace fore {
 
@@ -69,14 +69,14 @@ void GP::InitializeModel(const Model& model, const State& state)
     obs_size += state.false_observations().at(model_id).size();
   }
   if (has_obs) {
-    obs_size += state.false_observations().at(model_id).size();
+    obs_size += state.observations().at(model_id).size();
   }
 
   auto obs_idx(0);
   vecOfvec inputs(obs_size);
   vectord outputs(obs_size);
 
-  for (int i = 0; i < initial_inputs.size(); i++) {
+  for (unsigned int i = 0; i < initial_inputs.size(); i++) {
     inputs[obs_idx] = initial_inputs[i];
     outputs[obs_idx] = initial_outputs[i];
     obs_idx++;
@@ -106,14 +106,14 @@ void GP::InitializeModel(const Model& model, const State& state)
 
 }
 
-static vectord point_to_vec(fore::Point p)
+static vectord point_to_vec(const fore::Point& p)
 {
   vectord v(p.size());
   std::copy(p.cbegin(), p.cend(), v.begin());
   return v;
 }
 
-static fore::Point vec_to_point(vectord v)
+static fore::Point vec_to_point(const vectord& v)
 {
   fore::Point p(v.size());
   std::copy(v.begin(), v.end(), p.begin());

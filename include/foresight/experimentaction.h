@@ -44,6 +44,8 @@ class ExperimentAction : public Action{
     double false_result_;
 };
 
+bool is_experiment_action(const Action& action);
+
 #undef ACTIONTYPEID
 
 }

@@ -27,4 +27,9 @@ Action::Ptr ExperimentAction::Clone() const
   return std::make_unique<ExperimentAction>(*this);
 }
 
+bool is_experiment_action(const Action& action)
+{
+  return typeid(action) == typeid(ExperimentAction);
+}
+
 }
