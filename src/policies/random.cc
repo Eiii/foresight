@@ -4,14 +4,15 @@
 
 namespace fore {
 
-RandomPolicy::RandomPolicy(const Domain& domain) :
-    Policy(domain) {}
+RandomPolicy::RandomPolicy(const Domain& domain, int seed) :
+    Policy(domain), random_(seed) {}
 
 Action::Ptr RandomPolicy::SelectAction(const State& state)
 {
   auto legal_actions(simulator_.LegalActions(state));
   assert(legal_actions.size() > 0);
-  return legal_actions[0]->Clone();
+  RandomInt rand(random_, UniformIntDist(0, legal_actions.size()-1));
+  return legal_actions[rand()]->Clone();
 }
 
 }

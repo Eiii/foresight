@@ -1,13 +1,14 @@
 #pragma once
 
 #include "foresight/policy.h"
+#include "foresight/util/random.h"
 
 namespace fore {
 
 class RandomPolicy : public Policy {
   //Constructors
   public:
-    RandomPolicy(const Domain& domain);
+    RandomPolicy(const Domain& domain, int seed=1337);
     virtual ~RandomPolicy() = default;
     RandomPolicy(const RandomPolicy& rhs) = default;
     RandomPolicy& operator=(const RandomPolicy& rhs) = default;
@@ -17,6 +18,7 @@ class RandomPolicy : public Policy {
   //Public functions
   public:
     Action::Ptr SelectAction(const State& state) override;
+    RandomEngine random_;
 };
 
 }
