@@ -1,3 +1,13 @@
+2016-04-20
+==========
+* Added a Start/Finish interface to real world
+* TODO: Give ACTIONS IDs!
+
+2016-04-19
+==========
+* Re-committed myself to keeping this log up to date
+* Merged in dropped real-world system
+
 2016-04-12
 ==========
 * Updated state display to show names and info instead of IDs

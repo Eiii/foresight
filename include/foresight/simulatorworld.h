@@ -17,6 +17,8 @@ class SimulatorWorld : public RealWorld {
 
   //Interface functions
   public:
+    virtual void Start() override;
+    virtual void End() override;
     virtual bool IsFinished() override;
     virtual bool StateIsReady(int timestep) override;
     virtual State GetState(int timestep) override;

@@ -21,6 +21,8 @@ class RealWorld {
 
   //Interface
   public:
+    virtual void Start() = 0;
+    virtual void End() = 0;
     virtual bool IsFinished() = 0;
     virtual bool StateIsReady(int timestep) = 0;
     virtual State GetState(int timestep) = 0;

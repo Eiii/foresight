@@ -16,6 +16,7 @@ Arbiter::Arbiter(const Domain& domain, Policy::Ptr&& policy,
 void Arbiter::Optimize() const 
 {
   cout << "Starting optimization..." << endl;
+  real_world_->Start();
   auto current_timestep(0); //TODO: do we always want to start at zero?
 
   while (!real_world_->IsFinished()) {
@@ -52,6 +53,7 @@ void Arbiter::Optimize() const
     current_timestep++;
   }
 
+  real_world_->End();
   cout << "Finished!" << endl;
 }
 

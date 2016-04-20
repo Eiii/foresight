@@ -9,6 +9,16 @@ SimulatorWorld::SimulatorWorld(const Domain& domain) :
     domain_(domain), simulator_(domain), 
     current_state(domain_.initial_state()) {}
 
+void SimulatorWorld::Start() 
+{
+  //TODO: Blank
+}
+
+void SimulatorWorld::End() 
+{
+  //TODO: Blank
+}
+
 bool SimulatorWorld::IsFinished() 
 {
   return current_state.time() >= domain_.horizon();
