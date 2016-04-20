@@ -24,6 +24,7 @@ Action::Ptr Action::Clone() const
 
 bool Action::operator==(const Action& rhs) const
 {
+  //TODO NOT GOOD ENOUGH
   return (type_id_ == rhs.type_id_ &&
           time_started_ == rhs.time_started_);
 }

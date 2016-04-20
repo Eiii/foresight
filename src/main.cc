@@ -9,8 +9,12 @@
 #include "foresight/policies/human.h"
 #include "foresight/policies/random.h"
 #include "foresight/policies/pair.h"
+#include "foresight/simulatorworld.h"
 
 #include <iostream>
+
+using std::move;
+using std::make_unique;
 
 int main() 
 {
@@ -21,13 +25,14 @@ int main()
   //TODO: Load domain
   auto domain(create_fake_domain());
   //TODO: Initialize real world
-  auto exp(std::make_unique<fore::RandomPolicy>(domain));
-  auto res(std::make_unique<fore::RandomPolicy>(domain));
-  auto policy(std::make_unique<fore::PairPolicy>(
-        domain, std::move(exp), std::move(res))
+  auto exp(make_unique<fore::RandomPolicy>(domain));
+  auto res(make_unique<fore::RandomPolicy>(domain));
+  auto policy(make_unique<fore::PairPolicy>(
+        domain, move(exp), move(res))
   );
+  fore::RealWorld::Ptr real(new fore::SimulatorWorld(domain));
   //TODO: Create arbiter
-  fore::Arbiter arbiter(domain, std::move(policy));
+  fore::Arbiter arbiter(domain, std::move(policy), move(real));
   //TODO: Run optimization
   arbiter.Optimize();
   
@@ -54,7 +59,6 @@ fore::Domain create_fake_domain()
   action_fact.SetResourceProduction(11, 1);
 
   fore::ExperimentActionTypeFactory exp_act_fact(8, "Experiment A", 4, 100);
-  exp_act_fact.set_cancelable(true);
   exp_act_fact.SetResourceRequirement(10, 1);
 
   fore::Model m(100, fore::Model::Type::COSINE);

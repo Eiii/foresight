@@ -2,6 +2,7 @@
 
 #include "foresight/domain.h"
 #include "foresight/policy.h"
+#include "foresight/real.h"
 #include "foresight/simulator.h"
 #include "foresight/state.h"
 
@@ -10,7 +11,8 @@ namespace fore {
 class Arbiter {
   //Constructors
   public:
-    Arbiter(const Domain& domain, Policy::Ptr&& policy);
+    Arbiter(const Domain& domain, Policy::Ptr&& policy, 
+            RealWorld::Ptr&& real_world);
     virtual ~Arbiter() = default;
     //Forbid copying
     Arbiter(const Arbiter& rhs) = delete;
@@ -32,6 +34,7 @@ class Arbiter {
     const Domain& domain_;
     Policy::Ptr policy_;
     Simulator simulator_;
+    RealWorld::Ptr real_world_;
 };
 
 }
