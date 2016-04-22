@@ -19,7 +19,7 @@ class Model {
 
   //Constructors
   public:
-    Model(Id id, Type type);
+    Model(Id id, Type type, int seed);
     virtual ~Model() = default;
     //Forbid copying
     Model(const Model& rhs) = delete;
@@ -32,10 +32,12 @@ class Model {
   public:
     Id id() const { return id_; }
     Type type() const { return type_; }
+    int seed() const { return seed_; }
   
   private:
     Id id_;
     Type type_;
+    int seed_;
 };
 
 }

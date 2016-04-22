@@ -10,7 +10,7 @@ namespace fore {
 
 GP::GP(CustomModel::Function fn, const Model& model, const State& state) :
     model_(CustomModel::DefaultValidSet(),
-           CustomModel::DefaultParams(1337),
+           CustomModel::DefaultParams(model.seed()),
            fn,
            0.000l)
 {

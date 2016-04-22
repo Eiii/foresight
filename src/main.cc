@@ -23,7 +23,7 @@ int main()
 
   //TODO: Parse command line arguments
   //TODO: Load domain
-  auto domain(create_fake_domain());
+  auto domain(create_fake_domain(1337));
   //TODO: Initialize real world
   auto exp(make_unique<fore::RandomPolicy>(domain));
   auto res(make_unique<fore::RandomPolicy>(domain));
@@ -44,7 +44,7 @@ void init_logger()
   //TODO: Logging setup?
 }
 
-fore::Domain create_fake_domain() 
+fore::Domain create_fake_domain(int seed) 
 {
   auto horizon(90);
   fore::StateFactory state_fact;
@@ -92,9 +92,9 @@ fore::Domain create_fake_domain()
   exp_act_fact.SetResourceProduction(2, 1);
   domain_fact.AddActionType(exp_act_fact.Finish());
 
-  fore::Model m1(1000, fore::Model::Type::ROSENBROCK);
-  fore::Model m2(1001, fore::Model::Type::RASTRIGIN);
-  fore::Model cosine(1002, fore::Model::Type::COSINE);
+  fore::Model m1(1000, fore::Model::Type::ROSENBROCK, seed++);
+  fore::Model m2(1001, fore::Model::Type::RASTRIGIN, seed++);
+  fore::Model cosine(1002, fore::Model::Type::COSINE, seed++);
 
   domain_fact.AddResource(1, "Resource Lab");
   domain_fact.AddResource(2, "Experiment Lab");
