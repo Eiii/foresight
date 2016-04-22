@@ -23,13 +23,13 @@
 2016-03-15
 ==========
 * Finished GP skeleton, bayesopt interface
-* TODO: Make sure it actually works as expected 
+* todo: Make sure it actually works as expected 
 
 2016-03-14
 ==========
 * Finished adding observations to state from before
 * Added models to domain
-* TODO: Pretty up the domain info string
+* todo: Pretty up the domain info string
 * Started filling out GP
 * Added experiment action, finally.
 * Finished experiment action type begin/end

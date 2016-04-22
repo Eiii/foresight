@@ -6,9 +6,6 @@
 
 using std::make_shared;
 
-static vectord point_to_vec(const fore::Point& p);
-static fore::Point vec_to_point(const vectord& v);
-
 namespace fore {
 
 GP::GP(CustomModel::Function fn, const Model& model, const State& state) :
@@ -104,18 +101,18 @@ void GP::InitializeModel(const Model& model, const State& state)
   model_.initializeOptimizationWithPoints(inputs, outputs);
 }
 
-}
-
-static vectord point_to_vec(const fore::Point& p)
+vectord point_to_vec(const fore::Point& p)
 {
   vectord v(p.size());
   std::copy(p.cbegin(), p.cend(), v.begin());
   return v;
 }
 
-static fore::Point vec_to_point(const vectord& v)
+fore::Point vec_to_point(const vectord& v)
 {
   fore::Point p(v.size());
   std::copy(v.begin(), v.end(), p.begin());
   return p;
+}
+
 }

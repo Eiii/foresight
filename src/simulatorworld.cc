@@ -2,12 +2,17 @@
 #include "foresight/simulator.h"
 
 #include <cassert>
+#include <iostream>
+
+using std::cout;
+using std::endl;
 
 namespace fore { 
 
 SimulatorWorld::SimulatorWorld(const Domain& domain) :
     domain_(domain), simulator_(domain), 
-    current_state(domain_.initial_state()) {}
+    current_state(domain_.initial_state()),
+    regret_(domain_), state_history() {}
 
 void SimulatorWorld::Start() 
 {
@@ -16,7 +21,14 @@ void SimulatorWorld::Start()
 
 void SimulatorWorld::End() 
 {
-  //TODO: Blank
+  //Save the 'final' state
+  state_history.push_back(current_state);
+
+  //Calculate regrets
+  for (const auto& state : state_history) {
+    double regret = regret_.CalculateRegret(state);
+    cout << state.time() << ": " << regret << endl;
+  }
 }
 
 bool SimulatorWorld::IsFinished() 
@@ -26,6 +38,7 @@ bool SimulatorWorld::IsFinished()
 
 bool SimulatorWorld::StateIsReady(int timestep) 
 {
+  //Since this is fake, the next state is always ready!
   (void)timestep;
   return true;
 }
@@ -35,6 +48,7 @@ State SimulatorWorld::GetState(int timestep)
   (void)timestep;
   assert(timestep >= current_state.time());
   while (timestep > current_state.time()) {
+    state_history.push_back(current_state);
     current_state = simulator_.AdvanceTime(current_state);
   }
   assert(timestep == current_state.time());

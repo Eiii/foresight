@@ -86,6 +86,18 @@ void CustomModel::DeleteParams(bopt_params* params)
   delete[] params->crit_name;
 }
 
+CustomModel::Function CustomModel::GetFunction(Model::Type type)
+{
+  switch (type) {
+    case Model::Type::COSINE:
+      return CustomModel::CosineFn;
+      break;
+    default:
+      assert(false);
+      break;
+  }
+}
+
 double CustomModel::CosineFn(const vectord& Xi)
 {
   double val;

@@ -35,6 +35,7 @@ class Domain {
   public:
     const ActionType::Map& action_types() const { return action_types_; }
     const Resource::Map& resources() const { return resources_; }
+    const Model::Map& models() const { return models_; }
     int horizon() const { return horizon_; }
     const State& initial_state() const { return initial_state_; }
 

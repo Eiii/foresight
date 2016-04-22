@@ -1,5 +1,7 @@
 #pragma once
 
+#include "foresight/model.h"
+
 #include "bayesopt.hpp"
 
 namespace fore {
@@ -34,6 +36,7 @@ class CustomModel : public bayesopt::DiscreteModel {
 
   //Backing functions
   public:
+    static Function GetFunction(Model::Type type);
     static double CosineFn(const vectord& Xi);
 
   //Getters

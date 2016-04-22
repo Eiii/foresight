@@ -1,6 +1,7 @@
 #pragma once
 
 #include "foresight/real.h"
+#include "foresight/regret.h"
 #include "foresight/simulator.h"
 
 namespace fore {
@@ -29,6 +30,8 @@ class SimulatorWorld : public RealWorld {
     const Domain& domain_;
     Simulator simulator_;
     State current_state;
+    Regret regret_;
+    std::vector<State> state_history;
 };
 
 }

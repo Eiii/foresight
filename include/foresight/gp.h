@@ -43,4 +43,7 @@ class GP {
     mutable CustomModel model_; //TODO: I wish this wasn't necessary
 };
 
+vectord point_to_vec(const fore::Point& p);
+fore::Point vec_to_point(const vectord& v);
+
 }
