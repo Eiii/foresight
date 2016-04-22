@@ -9,8 +9,8 @@ namespace fore {
 class ExperimentActionTypeFactory : public ActionTypeFactory {
   //Constructors
   public:
-    ExperimentActionTypeFactory(int id, std::string name, Duration duration, 
-                                Model::Id model_id);
+    ExperimentActionTypeFactory(ActionType::Id id, std::string name, 
+                                Duration duration, Model::Id model_id);
     virtual ~ExperimentActionTypeFactory() = default;
     ExperimentActionTypeFactory(const ExperimentActionTypeFactory& rhs) 
       = default;
@@ -24,6 +24,8 @@ class ExperimentActionTypeFactory : public ActionTypeFactory {
   //Public functions
   public:
     ActionType::Ptr Finish() const override;
+    void Reset(ActionType::Id id, std::string name, Duration duration, 
+               Model::Id model_id);
 
   //Setters
   public:

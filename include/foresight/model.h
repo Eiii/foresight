@@ -15,7 +15,7 @@ class Model {
 
   //Public enums
   public:
-    enum class Type { COSINE };
+    enum class Type { RASTRIGIN, ROSENBROCK, COSINE };
 
   //Constructors
   public:

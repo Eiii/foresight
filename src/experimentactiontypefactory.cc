@@ -15,4 +15,13 @@ ActionType::Ptr ExperimentActionTypeFactory::Finish() const
     );
 }
 
+void ExperimentActionTypeFactory::Reset(
+    ActionType::Id id, std::string name, 
+    Duration duration, Model::Id model_id
+    )
+{
+  ActionTypeFactory::Reset(id, name, duration);
+  model_id_ = model_id;
+}
+
 }

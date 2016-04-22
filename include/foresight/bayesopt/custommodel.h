@@ -37,6 +37,8 @@ class CustomModel : public bayesopt::DiscreteModel {
   //Backing functions
   public:
     static Function GetFunction(Model::Type type);
+    static double RastriginFn(const vectord& Xi);
+    static double RosenbrockFn(const vectord& Xi);
     static double CosineFn(const vectord& Xi);
 
   //Getters

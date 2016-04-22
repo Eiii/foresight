@@ -19,12 +19,7 @@ GP::GP(CustomModel::Function fn, const Model& model, const State& state) :
 
 std::shared_ptr<GP> GP::GetGP(const Model& model, const State& state)
 {
-  CustomModel::Function fn(nullptr);
-  switch (model.type()) {
-    case Model::Type::COSINE:
-      fn = CustomModel::CosineFn;
-      break;
-  }
+  CustomModel::Function fn(CustomModel::GetFunction(model.type()));
   assert(fn != nullptr);
   return make_shared<GP>(fn, model, state);
 }

@@ -89,6 +89,12 @@ void CustomModel::DeleteParams(bopt_params* params)
 CustomModel::Function CustomModel::GetFunction(Model::Type type)
 {
   switch (type) {
+    case Model::Type::RASTRIGIN:
+      return CustomModel::RastriginFn;
+      break;
+    case Model::Type::ROSENBROCK:
+      return CustomModel::RosenbrockFn;
+      break;
     case Model::Type::COSINE:
       return CustomModel::CosineFn;
       break;
@@ -96,6 +102,30 @@ CustomModel::Function CustomModel::GetFunction(Model::Type type)
       assert(false);
       break;
   }
+}
+
+double CustomModel::RastriginFn(const vectord& Xi)
+{
+  double val;
+  val = 3.0 - (1.0 / 3.0) *
+        (pow(1.6 * Xi(0) - 0.5, 2.0) +
+         pow(1.6 * Xi(1) - 0.5, 2.0) -
+         0.3 * cos(3.0 * M_PI * (1.6 * Xi(0) - 0.5)) -
+         0.3 * cos(3.0 * M_PI * (1.6 * Xi(1) - 0.5))
+        );
+  return -val;
+}
+
+double CustomModel::RosenbrockFn(const vectord& Xi)
+{
+  double val;
+  val = 3.0 - (1.0 / 3.0) *
+        (pow(1.6 * Xi(0) - 0.5, 2.0) +
+         pow(1.6 * Xi(1) - 0.5, 2.0) -
+         0.3 * cos(3.0 * M_PI * (1.6 * Xi(0) - 0.5)) -
+         0.3 * cos(3.0 * M_PI * (1.6 * Xi(1) - 0.5))
+        );
+  return -val;
 }
 
 double CustomModel::CosineFn(const vectord& Xi)
