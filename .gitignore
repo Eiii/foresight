@@ -2,4 +2,6 @@ build
 tags
 .ycm_extra_conf.*
 lib
+*.csv
+*.png
 

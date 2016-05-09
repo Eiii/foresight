@@ -12,30 +12,49 @@
 #include "foresight/simulatorworld.h"
 
 #include <iostream>
+#include <fstream>
 
 using std::move;
 using std::make_unique;
+using std::vector;
 
 int main() 
 {
+  int num_runs = 25;
+
   //Program setup
   init_logger();
 
-  //TODO: Parse command line arguments
-  //TODO: Load domain
-  auto domain(create_fake_domain(1337));
-  //TODO: Initialize real world
-  auto exp(make_unique<fore::RandomPolicy>(domain));
-  auto res(make_unique<fore::RandomPolicy>(domain));
-  auto policy(make_unique<fore::PairPolicy>(
-        domain, move(exp), move(res))
-  );
-  fore::RealWorld::Ptr real(new fore::SimulatorWorld(domain));
-  //TODO: Create arbiter
-  fore::Arbiter arbiter(domain, std::move(policy), move(real));
-  //TODO: Run optimization
-  arbiter.Optimize();
-  
+  vector<vector<double>> all_regrets;
+  for (int i = 0; i < num_runs; i++) {
+    std::cout << "Starting run #" << i << "..." << std::endl;
+    auto domain(create_fake_domain(1337+i));
+    auto exp(make_unique<fore::RandomPolicy>(domain));
+    auto res(make_unique<fore::RandomPolicy>(domain));
+    auto policy(make_unique<fore::PairPolicy>(
+          domain, move(exp), move(res))
+    );
+    fore::RealWorld::Ptr real(new fore::SimulatorWorld(domain));
+    fore::SimulatorWorld& sim_world(
+        static_cast<fore::SimulatorWorld&>(*real)
+    );
+    fore::Arbiter arbiter(domain, move(policy), move(real));
+    arbiter.Optimize();
+    auto regret_list(sim_world.FinalRegrets());
+    all_regrets.push_back(regret_list);
+    std::cout << "Done!" << std::endl;
+  }
+
+  //Calculate average regret at each timestep
+  std::ofstream output("regrets.csv");
+  for (const auto& regrets : all_regrets) {
+    for (unsigned int i = 0; i < regrets.size(); i++) {
+      output << regrets[i];
+      if (i != regrets.size()-1) output << ", ";
+    }
+    output << std::endl;
+  }
+
   return 0;
 }
 
@@ -101,9 +120,9 @@ fore::Domain create_fake_domain(int seed)
   domain_fact.AddResource(10, "Resource A");
   domain_fact.AddResource(11, "Resource B");
   domain_fact.AddResource(12, "Resource C");
-  domain_fact.AddModel(std::move(m1));
-  domain_fact.AddModel(std::move(m2));
-  domain_fact.AddModel(std::move(cosine));
+  domain_fact.AddModel(move(m1));
+  domain_fact.AddModel(move(m2));
+  domain_fact.AddModel(move(cosine));
 
   return domain_fact.FinishAndReset();
 }

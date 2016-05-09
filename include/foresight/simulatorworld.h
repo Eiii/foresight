@@ -17,13 +17,17 @@ class SimulatorWorld : public RealWorld {
     SimulatorWorld& operator=(SimulatorWorld&&) = default;
 
   //Interface functions
-  public:
+  public: //TODO: const these functions!
     virtual void Start() override;
     virtual void End() override;
     virtual bool IsFinished() override;
     virtual bool StateIsReady(int timestep) override;
     virtual State GetState(int timestep) override;
     virtual void TakeAction(const Action& action) override;
+
+  //Public functions
+  public:
+    std::vector<double> FinalRegrets();
 
   //Private member variables
   private:

@@ -23,12 +23,6 @@ void SimulatorWorld::End()
 {
   //Save the 'final' state
   state_history.push_back(current_state);
-
-  //Calculate regrets
-  for (const auto& state : state_history) {
-    double regret = regret_.CalculateRegret(state);
-    cout << state.time() << ": " << regret << endl;
-  }
 }
 
 bool SimulatorWorld::IsFinished() 
@@ -58,6 +52,17 @@ State SimulatorWorld::GetState(int timestep)
 void SimulatorWorld::TakeAction(const Action& action)
 {
   current_state = simulator_.BeginAction(current_state, action);
+}
+
+std::vector<double> SimulatorWorld::FinalRegrets()
+{
+  std::vector<double> regrets;
+  //Calculate regrets
+  for (const auto& state : state_history) {
+    double regret = regret_.CalculateRegret(state);
+    regrets.push_back(regret);
+  }
+  return regrets;
 }
 
 }

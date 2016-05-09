@@ -13,9 +13,10 @@ Arbiter::Arbiter(const Domain& domain, Policy::Ptr&& policy,
     domain_(domain), policy_(move(policy)), simulator_(domain_), 
     real_world_(move(real_world)) {}
 
+//TODO: Debug output would be nice. Or logging!
 void Arbiter::Optimize() const 
 {
-  cout << "Starting optimization..." << endl;
+  //cout << "Starting optimization..." << endl;
   real_world_->Start();
   auto current_timestep(0); //TODO: do we always want to start at zero?
 
@@ -30,7 +31,7 @@ void Arbiter::Optimize() const
     Action::List actions;
 
     //Display current state
-    cout << state.Info(domain_) << endl;
+    //cout << state.Info(domain_) << endl;
 
     while (state.time() == current_timestep && 
            simulator_.IsDecisionPoint(state)) {
@@ -41,12 +42,12 @@ void Arbiter::Optimize() const
 
     //Execute the calculated actions
     if (actions.size() > 0) {
-      cout << "Executing actions:" << endl;
+      //cout << "Executing actions:" << endl;
       for (const auto& action : actions) {
         real_world_->TakeAction(*action);
-        cout << "\t" << action->Info(domain_) << endl;
+        //cout << "\t" << action->Info(domain_) << endl;
       }
-      cout << endl;
+      //cout << endl;
     }
 
     //Move to the next timestep
@@ -54,7 +55,7 @@ void Arbiter::Optimize() const
   }
 
   real_world_->End();
-  cout << "Finished!" << endl;
+  //cout << "Finished!" << endl;
 }
 
 bool Arbiter::IsHorizonReached(const State& state) const
