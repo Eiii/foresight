@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cassert>
+
 #include "foresight/actiontype.h"
 
 namespace fore {
@@ -24,7 +26,7 @@ class ActionTypeFactory {
 
   //Setters
   public:
-    void set_id(ActionType::Id id) { id_ = id; }
+    void set_id(ActionType::Id id) { assert(id > 0); id_ = id; }
     void set_cancelable(bool cancelable) { cancelable_ = cancelable; }
     template<typename T>
     void set_name(T&& name);

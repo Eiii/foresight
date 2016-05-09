@@ -1,3 +1,7 @@
+2016-05-09
+==========
+* Added null action
+
 2016-04-20
 ==========
 * Added a Start/Finish interface to real world

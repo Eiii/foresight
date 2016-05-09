@@ -29,11 +29,14 @@ int main()
   for (int i = 0; i < num_runs; i++) {
     std::cout << "Starting run #" << i << "..." << std::endl;
     auto domain(create_fake_domain(1337+i));
+    /*
     auto exp(make_unique<fore::RandomPolicy>(domain));
     auto res(make_unique<fore::RandomPolicy>(domain));
     auto policy(make_unique<fore::PairPolicy>(
           domain, move(exp), move(res))
     );
+    */
+    auto policy(make_unique<fore::HumanPolicy>(domain));
     fore::RealWorld::Ptr real(new fore::SimulatorWorld(domain));
     fore::SimulatorWorld& sim_world(
         static_cast<fore::SimulatorWorld&>(*real)
@@ -123,6 +126,7 @@ fore::Domain create_fake_domain(int seed)
   domain_fact.AddModel(move(m1));
   domain_fact.AddModel(move(m2));
   domain_fact.AddModel(move(cosine));
+  domain_fact.set_has_null_action(true);
 
   return domain_fact.FinishAndReset();
 }
