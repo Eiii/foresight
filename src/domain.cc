@@ -9,11 +9,13 @@ using std::endl;
 namespace fore {
 
 Domain::Domain(ActionType::Map&& action_types, Resource::Map&& resources, 
-               Model::Map&& models, int horizon, State init_state) :
+               Model::Map&& models, int horizon, bool has_null, 
+               State init_state) :
     action_types_(move(action_types)),
     resources_(move(resources)),
     models_(move(models)),
     horizon_(horizon),
+    has_null_action_(has_null),
     initial_state_(init_state) {}
 
 string Domain::Info() const

@@ -12,7 +12,7 @@ namespace fore {
 class Domain {
   public:
     Domain(ActionType::Map&& actions, Resource::Map&& resources, 
-           Model::Map&& models, int horizon, State init_state);
+           Model::Map&& models, int horizon, bool has_null, State init_state);
     virtual ~Domain() = default;
     //Forbid copying
     Domain(const Domain& other) = delete;
@@ -37,6 +37,7 @@ class Domain {
     const Resource::Map& resources() const { return resources_; }
     const Model::Map& models() const { return models_; }
     int horizon() const { return horizon_; }
+    bool has_null_action() const { return has_null_action_; }
     const State& initial_state() const { return initial_state_; }
 
   private:
@@ -44,6 +45,7 @@ class Domain {
     Resource::Map resources_;
     Model::Map models_;
     int horizon_; //TODO: Timestep alias?
+    bool has_null_action_;
     const State initial_state_;
 };
 

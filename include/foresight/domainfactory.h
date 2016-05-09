@@ -28,6 +28,7 @@ class DomainFactory {
   //Template setters
   public:
     void set_horizon(int horizon) { horizon_ = horizon; }
+    void set_has_null_action(bool has) { has_null_action_ = has; }
     template<typename T>
     void set_action_types(T&& action_types);
     template<typename T>
@@ -43,6 +44,7 @@ class DomainFactory {
     Resource::Map resources_;
     Model::Map models_;
     int horizon_;
+    bool has_null_action_;
     State initial_state_;
 };
 
@@ -78,6 +80,5 @@ void DomainFactory::set_initial_state(T&& state)
 {
   initial_state_ = std::forward<T>(state);
 }
-
 
 }
