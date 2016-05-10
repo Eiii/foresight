@@ -9,6 +9,7 @@
 #include "foresight/policies/human.h"
 #include "foresight/policies/random.h"
 #include "foresight/policies/pair.h"
+#include "foresight/policies/uniform.h"
 #include "foresight/simulatorworld.h"
 
 #include <iostream>
@@ -20,7 +21,7 @@ using std::vector;
 
 int main() 
 {
-  int num_runs = 25;
+  int num_runs = 1;
 
   //Program setup
   init_logger();
@@ -29,12 +30,14 @@ int main()
   for (int i = 0; i < num_runs; i++) {
     std::cout << "Starting run #" << i << "..." << std::endl;
     auto domain(create_fake_domain(1337+i));
+    /*
     auto exp(make_unique<fore::RandomPolicy>(domain));
     auto res(make_unique<fore::RandomPolicy>(domain));
     auto policy(make_unique<fore::PairPolicy>(
           domain, move(exp), move(res))
     );
-    //auto policy(make_unique<fore::HumanPolicy>(domain));
+    */
+    auto policy(make_unique<fore::UniformPolicy>(domain, 100));
     fore::RealWorld::Ptr real(new fore::SimulatorWorld(domain));
     fore::SimulatorWorld& sim_world(
         static_cast<fore::SimulatorWorld&>(*real)
@@ -73,16 +76,16 @@ fore::Domain create_fake_domain(int seed)
 
   fore::DomainFactory domain_fact(horizon, init_state);
 
-  fore::ExperimentActionTypeFactory exp_act_fact(100, "Slow", 15, 1000);
+  fore::ExperimentActionTypeFactory exp_act_fact(100, "Slow", 12, 1000);
+  exp_act_fact.SetResourceRequirement(1, 5);
+  domain_fact.AddActionType(exp_act_fact.Finish());
+
+  exp_act_fact.Reset(101, "Medium", 8, 1000);
   exp_act_fact.SetResourceRequirement(1, 10);
   domain_fact.AddActionType(exp_act_fact.Finish());
 
-  exp_act_fact.Reset(101, "Medium", 10, 1000);
-  exp_act_fact.SetResourceRequirement(1, 25);
-  domain_fact.AddActionType(exp_act_fact.Finish());
-
-  exp_act_fact.Reset(102, "Fast", 5, 1000);
-  exp_act_fact.SetResourceRequirement(1, 40);
+  exp_act_fact.Reset(102, "Fast", 2, 1000);
+  exp_act_fact.SetResourceRequirement(1, 20);
   domain_fact.AddActionType(exp_act_fact.Finish());
 
   fore::Model cosine(1000, fore::Model::Type::COSINE, seed++);

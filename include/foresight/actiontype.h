@@ -49,6 +49,9 @@ class ActionType {
     const std::string& name() const { return name_; }
     bool cancelable() const { return cancelable_; }
     const Duration& duration() const { return duration_; }
+    const Resource::Amount& requires() const { return requires_; }
+    const Resource::Amount& produces() const { return produces_; }
+    const Resource::Amount& upkeep() const { return upkeep_; }
 
   private:
     Id id_;
