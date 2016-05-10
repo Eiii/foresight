@@ -10,6 +10,7 @@
 #include "foresight/policies/random.h"
 #include "foresight/policies/pair.h"
 #include "foresight/policies/uniform.h"
+#include "foresight/policies/epsilonnull.h"
 #include "foresight/simulatorworld.h"
 
 #include <iostream>
@@ -30,14 +31,7 @@ int main()
   for (int i = 0; i < num_runs; i++) {
     std::cout << "Starting run #" << i << "..." << std::endl;
     auto domain(create_fake_domain(1337+i));
-    /*
-    auto exp(make_unique<fore::RandomPolicy>(domain));
-    auto res(make_unique<fore::RandomPolicy>(domain));
-    auto policy(make_unique<fore::PairPolicy>(
-          domain, move(exp), move(res))
-    );
-    */
-    auto policy(make_unique<fore::UniformPolicy>(domain, 100));
+    auto policy(make_unique<fore::EpsilonNullPolicy>(domain, 0.7));
     fore::RealWorld::Ptr real(new fore::SimulatorWorld(domain));
     fore::SimulatorWorld& sim_world(
         static_cast<fore::SimulatorWorld&>(*real)
