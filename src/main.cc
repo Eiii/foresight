@@ -11,6 +11,7 @@
 #include "foresight/policies/pair.h"
 #include "foresight/policies/uniform.h"
 #include "foresight/policies/epsilonnull.h"
+#include "foresight/policies/switchuniform.h"
 #include "foresight/simulatorworld.h"
 
 #include <iostream>
@@ -20,18 +21,25 @@ using std::move;
 using std::make_unique;
 using std::vector;
 
+constexpr int num_runs = 100;
+
 int main() 
 {
-  int num_runs = 1;
+  evaluate_switch("br_sw_18.csv", 100, 102, 18);
+  evaluate_switch("br_sw_36.csv", 100, 102, 36);
+  evaluate_switch("br_sw_52.csv", 100, 102, 52);
+  return 0;
+}
 
-  //Program setup
-  init_logger();
-
+void evaluate_switch(const char* ofname, int id1, int id2, int time)
+{
   vector<vector<double>> all_regrets;
   for (int i = 0; i < num_runs; i++) {
     std::cout << "Starting run #" << i << "..." << std::endl;
     auto domain(create_fake_domain(1337+i));
-    auto policy(make_unique<fore::EpsilonNullPolicy>(domain, 0.7));
+    auto policy(make_unique<fore::SwitchUniformPolicy>(
+      domain, id1, id2, time
+    ));
     fore::RealWorld::Ptr real(new fore::SimulatorWorld(domain));
     fore::SimulatorWorld& sim_world(
         static_cast<fore::SimulatorWorld&>(*real)
@@ -40,11 +48,10 @@ int main()
     arbiter.Optimize();
     auto regret_list(sim_world.FinalRegrets());
     all_regrets.push_back(regret_list);
-    std::cout << "Done!" << std::endl;
   }
 
   //Calculate average regret at each timestep
-  std::ofstream output("regrets.csv");
+  std::ofstream output(ofname);
   for (const auto& regrets : all_regrets) {
     for (unsigned int i = 0; i < regrets.size(); i++) {
       output << regrets[i];
@@ -52,8 +59,62 @@ int main()
     }
     output << std::endl;
   }
+}
 
-  return 0;
+void evaluate_ep_null(const char* ofname, float e)
+{
+  vector<vector<double>> all_regrets;
+  for (int i = 0; i < num_runs; i++) {
+    std::cout << "Starting run #" << i << "..." << std::endl;
+    auto domain(create_fake_domain(1337+i));
+    auto policy(make_unique<fore::EpsilonNullPolicy>(domain, e));
+    fore::RealWorld::Ptr real(new fore::SimulatorWorld(domain));
+    fore::SimulatorWorld& sim_world(
+        static_cast<fore::SimulatorWorld&>(*real)
+    );
+    fore::Arbiter arbiter(domain, move(policy), move(real));
+    arbiter.Optimize();
+    auto regret_list(sim_world.FinalRegrets());
+    all_regrets.push_back(regret_list);
+  }
+
+  //Calculate average regret at each timestep
+  std::ofstream output(ofname);
+  for (const auto& regrets : all_regrets) {
+    for (unsigned int i = 0; i < regrets.size(); i++) {
+      output << regrets[i];
+      if (i != regrets.size()-1) output << ", ";
+    }
+    output << std::endl;
+  }
+}
+
+void evaluate_uniform(const char* ofname, fore::Resource::Id id)
+{
+  vector<vector<double>> all_regrets;
+  for (int i = 0; i < num_runs; i++) {
+    std::cout << "Starting run #" << i << "..." << std::endl;
+    auto domain(create_fake_domain(1337+i));
+    auto policy(make_unique<fore::UniformPolicy>(domain, id));
+    fore::RealWorld::Ptr real(new fore::SimulatorWorld(domain));
+    fore::SimulatorWorld& sim_world(
+        static_cast<fore::SimulatorWorld&>(*real)
+    );
+    fore::Arbiter arbiter(domain, move(policy), move(real));
+    arbiter.Optimize();
+    auto regret_list(sim_world.FinalRegrets());
+    all_regrets.push_back(regret_list);
+  }
+
+  //Calculate average regret at each timestep
+  std::ofstream output(ofname);
+  for (const auto& regrets : all_regrets) {
+    for (unsigned int i = 0; i < regrets.size(); i++) {
+      output << regrets[i];
+      if (i != regrets.size()-1) output << ", ";
+    }
+    output << std::endl;
+  }
 }
 
 void init_logger()
@@ -65,7 +126,7 @@ fore::Domain create_fake_domain(int seed)
 {
   auto horizon(72);
   fore::StateFactory state_fact;
-  state_fact.SetResourceAmount(1, 200);
+  state_fact.SetResourceAmount(1, 600);
   auto init_state(state_fact.Finish());
 
   fore::DomainFactory domain_fact(horizon, init_state);

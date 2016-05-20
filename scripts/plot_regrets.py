@@ -6,6 +6,17 @@ import matplotlib.pyplot as plt
 import numpy as np
 import csv
 
+title = "Test cloud domain, Base policies"
+xlabel = "Time"
+ylabel = "Avg. Regret"
+dataset = (
+           ('r_sw_18.csv', 'Switch-18'),
+           ('r_sw_36.csv', 'Switch-36'),
+           ('r_sw_52.csv', 'Switch-52'),
+           ('r_u_slow.csv', 'Uniform-Slow'),
+           ('r_u_fast.csv', 'Uniform-Fast'),
+          )
+
 def load_data(fname):
   all_regrets = []
   with open(fname) as f:
@@ -13,14 +24,20 @@ def load_data(fname):
     for line in reader:
       regrets = map(float, line)
       all_regrets.append(regrets)
-  return all_regrets
+  return all_regrets, len(all_regrets[0])
 
 def avg_regrets(all_regrets):
   np_regrets = np.asarray(all_regrets)
   return np.average(np_regrets, axis=0)
 
-x = np.arange(0, 91)
-y = avg_regrets(load_data('regrets.csv'))
-plt.plot(x, y)
+for regret_file, name in dataset:
+  regrets, max_x = load_data(regret_file)
+  x = np.arange(0, max_x)
+  y = avg_regrets(regrets)
+  plt.plot(x, y, label=name)
+plt.title(title)
+plt.xlabel(xlabel)
+plt.ylabel(ylabel)
+plt.legend()
 plt.savefig('out.png')
 

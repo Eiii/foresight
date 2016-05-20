@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <memory>
 
 static void remove_action(fore::StateFactory* fact, 
                           const fore::Action& target);

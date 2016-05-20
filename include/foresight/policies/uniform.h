@@ -18,11 +18,12 @@ class UniformPolicy : public Policy {
   //Public functions
   public:
     Action::Ptr SelectAction(const State& state) override;
+    int ActionsPerStep(const State& state) const;
 
   //Private functions
   private:
-    int ActionsStarted(const State& state);
-    int TotalRemaining(const State& state);
+    int ActionsStarted(const State& state) const;
+    int TotalRemaining(const State& state) const;
 
   //Private members
   private:

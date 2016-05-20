@@ -31,7 +31,7 @@ void Arbiter::Optimize() const
     Action::List actions;
 
     //Display current state
-    cout << state.Info(domain_) << endl;
+    //cout << state.Info(domain_) << endl;
 
     while (state.time() == current_timestep && 
            simulator_.IsDecisionPoint(state)) {
