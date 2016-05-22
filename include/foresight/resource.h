@@ -38,5 +38,7 @@ Resource::Amount operator-(const Resource::Amount& lhs,
                            const Resource::Amount& rhs);
 Resource::Amount operator+(const Resource::Amount& lhs, 
                            const Resource::Amount& rhs);
+Resource::Amount operator*(const Resource::Amount& lhs, int rhs);
+int operator/(const Resource::Amount& lhs, const Resource::Amount& rhs);
 
 }

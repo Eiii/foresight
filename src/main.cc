@@ -12,6 +12,7 @@
 #include "foresight/policies/uniform.h"
 #include "foresight/policies/epsilonnull.h"
 #include "foresight/policies/switchuniform.h"
+#include "foresight/policies/upfront.h"
 #include "foresight/simulatorworld.h"
 
 #include <iostream>
@@ -25,10 +26,36 @@ constexpr int num_runs = 100;
 
 int main() 
 {
-  evaluate_switch("br_sw_18.csv", 100, 102, 18);
-  evaluate_switch("br_sw_36.csv", 100, 102, 36);
-  evaluate_switch("br_sw_52.csv", 100, 102, 52);
+  evaluate_upfront("br_upfront.csv", 100, 102);
   return 0;
+}
+
+void evaluate_upfront(const char* ofname, int id1, int id2)
+{
+  vector<vector<double>> all_regrets;
+  for (int i = 0; i < num_runs; i++) {
+    std::cout << "Starting run #" << i << "..." << std::endl;
+    auto domain(create_fake_domain(1337+i));
+    auto policy(make_unique<fore::Upfront>(domain, id1, id2));
+    fore::RealWorld::Ptr real(new fore::SimulatorWorld(domain));
+    fore::SimulatorWorld& sim_world(
+        static_cast<fore::SimulatorWorld&>(*real)
+    );
+    fore::Arbiter arbiter(domain, move(policy), move(real));
+    arbiter.Optimize();
+    auto regret_list(sim_world.FinalRegrets());
+    all_regrets.push_back(regret_list);
+  }
+
+  //Calculate average regret at each timestep
+  std::ofstream output(ofname);
+  for (const auto& regrets : all_regrets) {
+    for (unsigned int i = 0; i < regrets.size(); i++) {
+      output << regrets[i];
+      if (i != regrets.size()-1) output << ", ";
+    }
+    output << std::endl;
+  }
 }
 
 void evaluate_switch(const char* ofname, int id1, int id2, int time)

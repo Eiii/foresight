@@ -5,6 +5,8 @@
 
 #include <memory>
 
+#define ACTIONID int
+
 namespace fore {
 
 class Policy {
@@ -24,6 +26,11 @@ class Policy {
   //Public functions
   public:
     virtual std::unique_ptr<Action> SelectAction(const State& state) = 0;
+
+  //Protected functions
+  public:
+    std::unique_ptr<Action> FindAction(const State& state, ACTIONID id);
+    std::unique_ptr<Action> FindNullAction(const State& state);
 
   //Protected member variables
   protected:
