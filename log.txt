@@ -1,3 +1,10 @@
+2016-05-22
+==========
+* Remembered to use log again
+* Added upfront policy
+* TODO: Why not add tests for resource math?
+* TODO: Rename upfront to upfrontpolicy
+
 2016-05-09
 ==========
 * Added null action

@@ -18,14 +18,14 @@ set( Boost_NO_BOOST_CMAKE TRUE )
 add_subdirectory( "bayesopt" )
 set( BAYESOPT_INCLUDES "bayesopt/include" "bayesopt/utils" )
 
+set( CMAKE_CXX_FLAGS "-std=c++14 -Wall -Weffc++" )
+set( CMAKE_CXX_FLAGS_RELEASE "-O3" )
+set( CMAKE_CXX_FLAGS_DEBUG "-gdwarf-3" )
+
 if ( foresight_test )
   add_subdirectory( "lib/gtest" )
   add_subdirectory( "test" )
 endif()
-
-set( CMAKE_CXX_FLAGS "-std=c++14 -Wall -Weffc++" )
-set( CMAKE_CXX_FLAGS_RELEASE "-O3" )
-set( CMAKE_CXX_FLAGS_DEBUG "-gdwarf-3" )
 
 include_directories( ${PROJ_INCLUDES} )
 include_directories( SYSTEM ${BAYESOPT_INCLUDES} )

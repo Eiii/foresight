@@ -11,16 +11,7 @@ Resource::Resource(Id id, std::string name) :
 bool has_enough(const Resource::Amount& available, 
                 const Resource::Amount& required)
 {
-  for (const auto& key : required)
-  {
-    Resource::Id id = key.first;
-    int needed = key.second;
-    int current = available.count(id) ? available.at(id) : 0;
-    if (current < needed) {
-      return false;
-    }
-  }
-  return true;
+  return (available / required) > 0;
 }
 
 Resource::Amount operator-(const Resource::Amount& lhs, 
@@ -64,6 +55,7 @@ int operator/(const Resource::Amount& lhs, const Resource::Amount& rhs)
   for (const auto& key : rhs) {
     auto id = key.first;
     auto amt = key.second;
+    if (amt == 0) continue;
     int max;
     if (lhs.count(id)) {
       max = lhs.at(id) / amt; 
