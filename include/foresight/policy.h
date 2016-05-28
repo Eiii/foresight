@@ -26,6 +26,7 @@ class Policy {
   //Public functions
   public:
     virtual std::unique_ptr<Action> SelectAction(const State& state) = 0;
+    virtual Ptr Clone() const = 0;
 
   //Protected functions
   public:

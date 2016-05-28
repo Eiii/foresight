@@ -26,7 +26,7 @@ constexpr int num_runs = 100;
 
 int main() 
 {
-  evaluate_upfront("br_upfront.csv", 100, 102);
+  evaluate_upfront("br_upfront.csv", 100, 100);
   return 0;
 }
 
@@ -36,7 +36,7 @@ void evaluate_upfront(const char* ofname, int id1, int id2)
   for (int i = 0; i < num_runs; i++) {
     std::cout << "Starting run #" << i << "..." << std::endl;
     auto domain(create_fake_domain(1337+i));
-    auto policy(make_unique<fore::Upfront>(domain, id1, id2));
+    auto policy(make_unique<fore::UpfrontPolicy>(domain, id1, id2));
     fore::RealWorld::Ptr real(new fore::SimulatorWorld(domain));
     fore::SimulatorWorld& sim_world(
         static_cast<fore::SimulatorWorld&>(*real)

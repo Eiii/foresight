@@ -29,4 +29,9 @@ Action::Ptr HumanPolicy::SelectAction(const State& state)
   return std::move(legal_actions[choice-1]);
 }
 
+Policy::Ptr HumanPolicy::Clone() const
+{
+  return std::make_unique<HumanPolicy>(*this);
+}
+
 }

@@ -5,19 +5,20 @@
 
 namespace fore {
 
-class Upfront : public Policy {
+class UpfrontPolicy : public Policy {
   //Constructors
   public:
-    Upfront(const Domain& domain, ActionType::Id id1, ActionType::Id id2);
-    virtual ~Upfront() = default;
-    Upfront(const Upfront& rhs) = default;
-    Upfront& operator=(const Upfront& rhs) = default;
-    Upfront(Upfront&& rhs) = default;
-    Upfront& operator=(Upfront&& rhs) = default;
+    UpfrontPolicy(const Domain& domain, ActionType::Id id1, ActionType::Id id2);
+    virtual ~UpfrontPolicy() = default;
+    UpfrontPolicy(const UpfrontPolicy& rhs);
+    UpfrontPolicy& operator=(const UpfrontPolicy& rhs);
+    UpfrontPolicy(UpfrontPolicy&& rhs) = default;
+    UpfrontPolicy& operator=(UpfrontPolicy&& rhs) = default;
 
   //Public functions
   public:
     Action::Ptr SelectAction(const State& state) override;
+    Ptr Clone() const override;
 
   //Private functions
   private:

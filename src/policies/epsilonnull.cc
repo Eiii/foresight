@@ -32,4 +32,9 @@ Action::Ptr EpsilonNullPolicy::SelectAction(const State& state)
   }
 }
 
+Policy::Ptr EpsilonNullPolicy::Clone() const
+{
+  return std::make_unique<EpsilonNullPolicy>(*this);
+}
+
 }

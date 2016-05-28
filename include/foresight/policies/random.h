@@ -18,6 +18,10 @@ class RandomPolicy : public Policy {
   //Public functions
   public:
     Action::Ptr SelectAction(const State& state) override;
+    Policy::Ptr Clone() const override;
+
+  //Private member variables
+  private:
     RandomEngine random_;
 };
 

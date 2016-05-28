@@ -18,6 +18,7 @@ class UniformPolicy : public Policy {
   //Public functions
   public:
     Action::Ptr SelectAction(const State& state) override;
+    Ptr Clone() const override;
     int ActionsPerStep(const State& state) const;
 
   //Private functions

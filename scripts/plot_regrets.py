@@ -10,11 +10,10 @@ title = "Test cloud domain, Base policies"
 xlabel = "Time"
 ylabel = "Avg. Regret"
 dataset = (
-           ('r_sw_18.csv', 'Switch-18'),
-           ('r_sw_36.csv', 'Switch-36'),
-           ('r_sw_52.csv', 'Switch-52'),
-           ('r_u_slow.csv', 'Uniform-Slow'),
-           ('r_u_fast.csv', 'Uniform-Fast'),
+           ('br_upfront.csv', 'Upfront'),
+           ('br_sw_52.csv', 'Switch-52'),
+           ('br_u_slow.csv', 'Uniform-Slow'),
+           ('br_u_fast.csv', 'Uniform-Fast'),
           )
 
 def load_data(fname):

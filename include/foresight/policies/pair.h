@@ -9,14 +9,15 @@ class PairPolicy : public Policy {
   public:
     PairPolicy(const Domain& domain, Policy::Ptr&& exp, Policy::Ptr&& res);
     virtual ~PairPolicy() = default;
-    PairPolicy(const PairPolicy& rhs) = default;
-    PairPolicy& operator=(const PairPolicy& rhs) = default;
+    PairPolicy(const PairPolicy& rhs);
+    PairPolicy& operator=(const PairPolicy& rhs);
     PairPolicy(PairPolicy&& rhs) = default;
     PairPolicy& operator=(PairPolicy&& rhs) = default;
 
   //Public functions
   public:
     Action::Ptr SelectAction(const State& state) override;
+    Ptr Clone() const override;
 
   //Private member variables
   private:

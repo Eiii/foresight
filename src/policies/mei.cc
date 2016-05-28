@@ -29,4 +29,9 @@ Action::Ptr MEIPolicy::SelectAction(const State& state)
   return exp_actions[0]->Clone();
 }
 
+Policy::Ptr MEIPolicy::Clone() const
+{
+  return std::make_unique<MEIPolicy>(*this);
+}
+
 }

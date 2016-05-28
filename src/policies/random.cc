@@ -15,4 +15,8 @@ Action::Ptr RandomPolicy::SelectAction(const State& state)
   return legal_actions[rand()]->Clone();
 }
 
+Policy::Ptr RandomPolicy::Clone() const {
+  return std::make_unique<RandomPolicy>(*this);
+}
+
 }

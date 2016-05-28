@@ -39,6 +39,11 @@ Action::Ptr UniformPolicy::SelectAction(const State& state)
   return legal_actions[0]->Clone();
 }
 
+Policy::Ptr UniformPolicy::Clone() const
+{
+  return std::make_unique<UniformPolicy>(*this);
+}
+
 int UniformPolicy::ActionsPerStep(const State& state) const
 {
   //Count the total number of actions we can execute with our current budget

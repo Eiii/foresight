@@ -17,6 +17,7 @@ class HumanPolicy : public Policy {
   //Public functions
   public:
     Action::Ptr SelectAction(const State& state) override;
+    Ptr Clone() const override;
 };
 
 }

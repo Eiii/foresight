@@ -8,14 +8,28 @@
 
 namespace fore {
 
-Upfront::Upfront(const Domain& domain, ActionType::Id id1, ActionType::Id id2):
+UpfrontPolicy::UpfrontPolicy(const Domain& domain, ActionType::Id id1, 
+                             ActionType::Id id2) :
     Policy(domain),
     first_id_(id1),
     seq_id_(id2),
     uniform_policy_(new UniformPolicy(domain_, seq_id_))
 { }
 
-Action::Ptr Upfront::SelectAction(const State& state)
+UpfrontPolicy::UpfrontPolicy(const UpfrontPolicy& rhs) :
+    Policy(rhs),
+    first_id_(rhs.first_id_),
+    seq_id_(rhs.seq_id_),
+    uniform_policy_(rhs.uniform_policy_->Clone()) { }
+
+UpfrontPolicy& UpfrontPolicy::operator=(const UpfrontPolicy& rhs)
+{
+  UpfrontPolicy p(rhs);
+  std::swap(*this, p);
+  return *this;
+}
+
+Action::Ptr UpfrontPolicy::SelectAction(const State& state)
 {
   auto legal_actions(simulator_.LegalActions(state));
 
@@ -25,6 +39,7 @@ Action::Ptr Upfront::SelectAction(const State& state)
   if (state.time() == 0) {
     //Start off the big initial batch
     int initial_batch = CalculateFirstBatchSize(state);
+
     if (ActionsStarted(state) < initial_batch) {
       return FindAction(state, first_id_);
     }
@@ -35,7 +50,12 @@ Action::Ptr Upfront::SelectAction(const State& state)
   return FindNullAction(state);
 }
 
-int Upfront::CalculateFirstBatchSize(const State& state) const
+Policy::Ptr UpfrontPolicy::Clone() const
+{
+  return std::make_unique<UpfrontPolicy>(*this);
+}
+
+int UpfrontPolicy::CalculateFirstBatchSize(const State& state) const
 {
   const auto& action_type(domain_.action_type(first_id_));
   const auto& seq_type(domain_.action_type(seq_id_));
@@ -46,7 +66,7 @@ int Upfront::CalculateFirstBatchSize(const State& state) const
   return res_leftover / action_type.requires();
 }
 
-int Upfront::ActionsStarted(const State& state) const
+int UpfrontPolicy::ActionsStarted(const State& state) const
 {
   int num_started(0);
   for (const auto& action_ptr : state.running_actions()) {
