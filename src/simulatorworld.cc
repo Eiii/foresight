@@ -1,4 +1,6 @@
 #include "foresight/simulatorworld.h"
+
+#include "foresight/gp.h"
 #include "foresight/simulator.h"
 
 #include <cassert>
@@ -10,8 +12,8 @@ using std::endl;
 namespace fore { 
 
 SimulatorWorld::SimulatorWorld(const Domain& domain) :
-    domain_(domain), simulator_(domain), 
-    current_state(domain_.initial_state()),
+    domain_(domain), simulator_(domain, this), 
+    current_state_(domain_.initial_state()),
     regret_(domain_), state_history() {}
 
 void SimulatorWorld::Start() 
@@ -22,12 +24,12 @@ void SimulatorWorld::Start()
 void SimulatorWorld::End() 
 {
   //Save the 'final' state
-  state_history.push_back(current_state);
+  state_history.push_back(current_state_);
 }
 
-bool SimulatorWorld::IsFinished() 
+bool SimulatorWorld::IsFinished() const
 {
-  return current_state.time() >= domain_.horizon();
+  return current_state_.time() >= domain_.horizon();
 }
 
 bool SimulatorWorld::StateIsReady(int timestep) 
@@ -40,18 +42,18 @@ bool SimulatorWorld::StateIsReady(int timestep)
 State SimulatorWorld::GetState(int timestep)
 {
   (void)timestep;
-  assert(timestep >= current_state.time());
-  while (timestep > current_state.time()) {
-    state_history.push_back(current_state);
-    current_state = simulator_.AdvanceTime(current_state);
+  assert(timestep >= current_state_.time());
+  while (timestep > current_state_.time()) {
+    state_history.push_back(current_state_);
+    current_state_ = simulator_.AdvanceTime(current_state_);
   }
-  assert(timestep == current_state.time());
-  return current_state;
+  assert(timestep == current_state_.time());
+  return current_state_;
 }
 
 void SimulatorWorld::TakeAction(const Action& action)
 {
-  current_state = simulator_.BeginAction(current_state, action);
+  current_state_ = simulator_.BeginAction(current_state_, action);
 }
 
 std::vector<double> SimulatorWorld::FinalRegrets()
@@ -63,6 +65,27 @@ std::vector<double> SimulatorWorld::FinalRegrets()
     regrets.push_back(regret);
   }
   return regrets;
+}
+
+std::vector<int> SimulatorWorld::FinalConcurrent()
+{
+  std::vector<int> concurrent;
+  //Calculate regrets
+  for (const auto& state : state_history) {
+    int running = state.running_actions().size();
+    concurrent.push_back(running);
+  }
+  return concurrent;
+}
+
+double SimulatorWorld::ObservationResponse(
+    const State& state, 
+    const Model& model, 
+    Point point
+) const
+{
+  auto gp(GP::GetGP(model, state));
+  return gp->SimulatedResponse(point);
 }
 
 }

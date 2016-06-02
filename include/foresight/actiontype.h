@@ -3,13 +3,16 @@
 #include "foresight/duration.h"
 #include "foresight/resource.h"
 #include "foresight/state.h"
-#include "foresight/statefactory.h"
 
 #include <map>
 #include <string>
 #include <vector>
 
+
 namespace fore {
+
+class RealWorld;
+class StateFactory;
 
 class ActionType {
   //Type aliases
@@ -40,7 +43,8 @@ class ActionType {
     virtual State Start(const Action& action, const Domain& domain, 
                         const State& state) const;
     virtual void End(const Action& action, const Domain& domain,
-                     const State& state, StateFactory* fact) const;
+                     const State& state, StateFactory* fact, 
+                     const RealWorld& real) const;
     virtual State Cancel(const Action& target, const State& state) const;
 
   //Getters

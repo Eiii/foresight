@@ -12,11 +12,12 @@ using std::make_unique;
 
 namespace fore {
 
-Simulator::Simulator(const Domain& domain) :
-    domain_(domain) {}
+Simulator::Simulator(const Domain& domain, const RealWorld* real) :
+    domain_(domain), real_world_(real) {}
 
 State Simulator::AdvanceTime(const State& state) const
 {
+  assert(real_world_ != nullptr);
   StateFactory state_fact(state);
 
   //Advance time
@@ -27,7 +28,7 @@ State Simulator::AdvanceTime(const State& state) const
   for (const auto& action_p : state.running_actions()) {
     if (IsActionFinished(*action_p, state)) {
       const auto& atype(domain_.action_type(action_p->type_id()));
-      atype.End(*action_p, domain_, state, &state_fact);
+      atype.End(*action_p, domain_, state, &state_fact, *real_world_);
     } else if (!is_null_action(*action_p)) {
       next_actions.emplace_back(action_p->Clone());
     }

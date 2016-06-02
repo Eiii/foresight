@@ -4,6 +4,7 @@
 #include "foresight/domain.h"
 #include "foresight/gp.h"
 #include "foresight/statefactory.h"
+#include "foresight/real.h"
 
 #include <cassert>
 #include <iostream>
@@ -67,10 +68,10 @@ State ExperimentActionType::Start(
 
 void ExperimentActionType::End(
   const Action& action, const Domain& domain, const State& state,
-  StateFactory* fact
+  StateFactory* fact, const RealWorld& real_world
 ) const
 {
-  ActionType::End(action, domain, state, fact);
+  ActionType::End(action, domain, state, fact, real_world);
 
   const auto& exp_action(static_cast<const ExperimentAction&>(action));
   auto input_point(exp_action.input_point());
@@ -78,8 +79,7 @@ void ExperimentActionType::End(
                                exp_action.false_result());
 
   const auto& model(domain.model(model_id_));
-  auto gp(GP::GetGP(model, state));
-  auto real_result(gp->SimulatedResponse(input_point));
+  auto real_result(real_world.ObservationResponse(state, model, input_point));
   fact->AddObservation(model_id_, input_point, real_result);
 }
 

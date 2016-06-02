@@ -10,8 +10,8 @@ namespace fore {
 
 Arbiter::Arbiter(const Domain& domain, Policy::Ptr&& policy,
                  RealWorld::Ptr&& real_world) :
-    domain_(domain), policy_(move(policy)), simulator_(domain_), 
-    real_world_(move(real_world)) {}
+    domain_(domain), policy_(move(policy)), real_world_(move(real_world)),
+    simulator_(domain, real_world_.get()) {}
 
 //TODO: Debug output would be nice. Or logging!
 void Arbiter::Optimize() const 

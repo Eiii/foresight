@@ -21,6 +21,10 @@ class SmartUniformPolicy : public Policy {
     Action::Ptr SelectAction(const State& state) override;
     Ptr Clone() const override;
 
+  //Private functions
+  private:
+  double SimulatePolicy(Policy::Ptr&& policy, const State& state) const;
+
   private:
     Policy::Ptr policy1_;
     Policy::Ptr policy2_;

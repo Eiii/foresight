@@ -7,7 +7,7 @@ namespace fore {
 class Simulator {
   //Constructors
   public:
-    Simulator(const Domain& domain);
+    Simulator(const Domain& domain, const RealWorld* real_world = nullptr);
     virtual ~Simulator() = default;
     Simulator(const Simulator& rhs) = default;
     Simulator& operator=(const Simulator& rhs) = default;
@@ -29,6 +29,7 @@ class Simulator {
   //Member variables
   private:
     const Domain& domain_;
+    const RealWorld* real_world_;
 };
 
 }

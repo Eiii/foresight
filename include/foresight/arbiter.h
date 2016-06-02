@@ -33,8 +33,8 @@ class Arbiter {
   private:
     const Domain& domain_;
     Policy::Ptr policy_;
-    Simulator simulator_;
     RealWorld::Ptr real_world_;
+    Simulator simulator_;
 };
 
 }

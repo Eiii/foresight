@@ -40,9 +40,11 @@ Action::Ptr SmartUniformPolicy::SelectAction(const State& state)
   if (!switched_) {
     //Run simulations of policies using our current understanding
     //of the problem as the 'real world'
+    double p1_regret(SimulatePolicy(policy1_->Clone(), state));
+    double p2_regret(SimulatePolicy(policy2_->Clone(), state));
     
-    //If regret of policy2 < regret of policy1, switch!
-
+    //Switch to the better policy
+    if (p2_regret < p1_regret) switched_ = true;
   }
   
   
@@ -51,6 +53,13 @@ Action::Ptr SmartUniformPolicy::SelectAction(const State& state)
   } else {
     return policy2_->SelectAction(state);
   }
+}
+
+double SmartUniformPolicy::SimulatePolicy(Policy::Ptr&& policy, 
+                                          const State& state) const
+{
+  (void)policy; (void)state;
+  return 0.0;
 }
 
 Policy::Ptr SmartUniformPolicy::Clone() const

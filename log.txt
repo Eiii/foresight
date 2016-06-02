@@ -1,9 +1,15 @@
+2016-06-01
+==========
+* Remembered to use log again again
+* Shifted responsibility for determining the response on exp. action end to
+the 'real world' from the action itself.
+
 2016-05-22
 ==========
 * Remembered to use log again
 * Added upfront policy
-* TODO: Why not add tests for resource math?
-* TODO: Rename upfront to upfrontpolicy
+* todo: Why not add tests for resource math?
+* todo: Rename upfront to upfrontpolicy
 
 2016-05-09
 ==========

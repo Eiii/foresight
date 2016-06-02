@@ -1,5 +1,6 @@
 #include "foresight/actiontype.h"
 
+#include "foresight/real.h"
 #include "foresight/statefactory.h"
 
 #include <algorithm>
@@ -53,9 +54,10 @@ State ActionType::Start(const Action& action, const Domain& domain,
 }
 
 void ActionType::End(const Action& action, const Domain& domain, 
-                     const State& state, StateFactory* fact) const
+                     const State& state, StateFactory* fact, 
+                     const RealWorld& real) const
 {
-  (void)domain; (void)state;
+  (void)domain; (void)state; (void)real;
   auto current_resources(fact->resources());
   //Add produced resources
   fact->set_resources(current_resources + produces_);

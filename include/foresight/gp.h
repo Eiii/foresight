@@ -32,7 +32,7 @@ class GP {
   public:
     Point CalculateBestPoint() const;
     double CalculateMean(Point p) const;
-    double SimulatedResponse(Point p) const;
+    double SimulatedResponse(Point p) const; //TODO: This should really be renamed
 
   //Private methods
   private:

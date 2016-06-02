@@ -3,6 +3,8 @@
 #include "foresight/actiontype.h"
 #include "foresight/model.h"
 
+class RealWorld;
+
 namespace fore {
 
 class ExperimentActionType : public ActionType {
@@ -34,8 +36,8 @@ class ExperimentActionType : public ActionType {
       Start(const Action& action, const Domain& domain, 
             const State& state) const override;
     virtual void 
-      End(const Action& action, const Domain& domain,
-          const State& state, StateFactory* fact) const override;
+      End(const Action& action, const Domain& domain, const State& state, 
+          StateFactory* fact, const RealWorld& real) const override;
     virtual State 
       Cancel(const Action& target, const State& state) const override;
 

@@ -18,22 +18,25 @@ class SimulatorWorld : public RealWorld {
 
   //Interface functions
   public: //TODO: const these functions!
-    virtual void Start() override;
-    virtual void End() override;
-    virtual bool IsFinished() override;
-    virtual bool StateIsReady(int timestep) override;
-    virtual State GetState(int timestep) override;
-    virtual void TakeAction(const Action& action) override;
+    void Start() override;
+    void End() override;
+    bool IsFinished() const override;
+    bool StateIsReady(int timestep) override;
+    State GetState(int timestep) override;
+    void TakeAction(const Action& action) override;
+    double ObservationResponse(const State& state, const Model& model, 
+                               Point point) const override;
 
   //Public functions
   public:
     std::vector<double> FinalRegrets();
+    std::vector<int> FinalConcurrent();
 
   //Private member variables
   private:
     const Domain& domain_;
     Simulator simulator_;
-    State current_state;
+    State current_state_;
     Regret regret_;
     std::vector<State> state_history;
 };
