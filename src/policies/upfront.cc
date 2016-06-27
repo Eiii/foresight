@@ -5,49 +5,16 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <iostream>
+
+using std::vector;
 
 namespace fore {
 
-UpfrontPolicy::UpfrontPolicy(const Domain& domain, ActionType::Id id1, 
-                             ActionType::Id id2) :
-    Policy(domain),
-    first_id_(id1),
-    seq_id_(id2),
-    uniform_policy_(new UniformPolicy(domain_, seq_id_))
-{ }
-
-UpfrontPolicy::UpfrontPolicy(const UpfrontPolicy& rhs) :
-    Policy(rhs),
-    first_id_(rhs.first_id_),
-    seq_id_(rhs.seq_id_),
-    uniform_policy_(rhs.uniform_policy_->Clone()) { }
-
-UpfrontPolicy& UpfrontPolicy::operator=(const UpfrontPolicy& rhs)
+UpfrontPolicy::UpfrontPolicy(const Domain& domain, ActionType::Id id1) :
+    UniformPolicy(domain, id1)
 {
-  UpfrontPolicy p(rhs);
-  std::swap(*this, p);
-  return *this;
-}
-
-Action::Ptr UpfrontPolicy::SelectAction(const State& state)
-{
-  auto legal_actions(simulator_.LegalActions(state));
-
-  //Calculate switching time
-  int switch_time = domain_.action_type(first_id_).duration().mean();
-
-  if (state.time() == 0) {
-    //Start off the big initial batch
-    int initial_batch = CalculateFirstBatchSize(state);
-
-    if (ActionsStarted(state) < initial_batch) {
-      return FindAction(state, first_id_);
-    }
-  } else if (state.time() > switch_time) {
-    return uniform_policy_->SelectAction(state);
-  }
-
-  return FindNullAction(state);
+  actions_per_step_ = CalcActionsPerStep(domain_);
 }
 
 Policy::Ptr UpfrontPolicy::Clone() const
@@ -55,26 +22,11 @@ Policy::Ptr UpfrontPolicy::Clone() const
   return std::make_unique<UpfrontPolicy>(*this);
 }
 
-int UpfrontPolicy::CalculateFirstBatchSize(const State& state) const
+vector<int> UpfrontPolicy::CalcActionsPerStep(const Domain& domain) const
 {
-  const auto& action_type(domain_.action_type(first_id_));
-  const auto& seq_type(domain_.action_type(seq_id_));
-  int horizon_left(domain_.horizon() - action_type.duration().mean());
-  int max_exe(horizon_left / seq_type.duration().mean());
-  auto res_required(seq_type.requires() * max_exe);
-  auto res_leftover(state.resources() - res_required);
-  return res_leftover / action_type.requires();
-}
-
-int UpfrontPolicy::ActionsStarted(const State& state) const
-{
-  int num_started(0);
-  for (const auto& action_ptr : state.running_actions()) {
-    if (action_ptr->type_id() == first_id_) {
-      num_started++;
-    }
-  }
-  return num_started;
+  auto aps(vector<int>(domain.horizon()+1, 0));
+  std::cout << "Upfront APS" << std::endl;
+  return aps;
 }
 
 }

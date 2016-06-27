@@ -19,16 +19,22 @@ class UniformPolicy : public Policy {
   public:
     Action::Ptr SelectAction(const State& state) override;
     Ptr Clone() const override;
-    int ActionsPerStep(const State& state) const;
+
+  //Protected functions
+  protected:
+    virtual std::vector<int> CalcActionsPerStep(const Domain& domain) const;
 
   //Private functions
   private:
     int ActionsStarted(const State& state) const;
-    int TotalRemaining(const State& state) const;
 
   //Private members
   private:
     ActionType::Id action_id_;
+
+  //Protected members
+  protected:
+    std::vector<int> actions_per_step_;
 
 };
 

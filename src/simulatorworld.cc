@@ -2,6 +2,7 @@
 
 #include "foresight/gp.h"
 #include "foresight/simulator.h"
+#include "foresight/nullaction.h"
 
 #include <cassert>
 #include <iostream>
@@ -18,7 +19,7 @@ SimulatorWorld::SimulatorWorld(const Domain& domain) :
 
 void SimulatorWorld::Start() 
 {
-  //TODO: Blank
+  current_state_ = domain_.initial_state();
 }
 
 void SimulatorWorld::End() 
@@ -72,7 +73,10 @@ std::vector<int> SimulatorWorld::FinalConcurrent()
   std::vector<int> concurrent;
   //Calculate regrets
   for (const auto& state : state_history) {
-    int running = state.running_actions().size();
+    int running = 0;
+    for (const auto& action : state.running_actions()) {
+      if (!is_null_action(*action)) running++;
+    }
     concurrent.push_back(running);
   }
   return concurrent;
@@ -86,6 +90,13 @@ double SimulatorWorld::ObservationResponse(
 {
   auto gp(GP::GetGP(model, state));
   return gp->SimulatedResponse(point);
+
+}
+
+double SimulatorWorld::FinalRegret() 
+{
+  const auto& last_state(*(state_history.end()-1));
+  return regret_.CalculateRegret(last_state);
 }
 
 }

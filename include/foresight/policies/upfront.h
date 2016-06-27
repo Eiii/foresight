@@ -1,34 +1,27 @@
 #pragma once
 
-#include "foresight/policy.h"
+#include "foresight/policies/uniform.h"
 #include "foresight/actiontype.h"
 
 namespace fore {
 
-class UpfrontPolicy : public Policy {
+class UpfrontPolicy : public UniformPolicy {
   //Constructors
   public:
-    UpfrontPolicy(const Domain& domain, ActionType::Id id1, ActionType::Id id2);
+    UpfrontPolicy(const Domain& domain, ActionType::Id id1);
     virtual ~UpfrontPolicy() = default;
-    UpfrontPolicy(const UpfrontPolicy& rhs);
-    UpfrontPolicy& operator=(const UpfrontPolicy& rhs);
+    UpfrontPolicy(const UpfrontPolicy& rhs) = default;
+    UpfrontPolicy& operator=(const UpfrontPolicy& rhs) = default;
     UpfrontPolicy(UpfrontPolicy&& rhs) = default;
     UpfrontPolicy& operator=(UpfrontPolicy&& rhs) = default;
 
   //Public functions
   public:
-    Action::Ptr SelectAction(const State& state) override;
     Ptr Clone() const override;
 
-  //Private functions
-  private:
-    int CalculateFirstBatchSize(const State& state) const;
-    int ActionsStarted(const State& state) const;
-
-  private:
-    ActionType::Id first_id_;
-    ActionType::Id seq_id_;
-    Policy::Ptr uniform_policy_;
+  //Protected functions
+  protected:
+    std::vector<int> CalcActionsPerStep(const Domain& domain) const override;
 };
 
 }

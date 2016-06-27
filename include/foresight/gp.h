@@ -31,7 +31,9 @@ class GP {
   //Public methods
   public:
     Point CalculateBestPoint() const;
+    std::pair<double, double> CalculateMeanAndStd(Point p) const;
     double CalculateMean(Point p) const;
+    double CalculateStd(Point p) const;
     double SimulatedResponse(Point p) const; //TODO: This should really be renamed
 
   //Private methods

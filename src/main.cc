@@ -6,14 +6,9 @@
 #include "foresight/experimentactiontypefactory.h"
 #include "foresight/resource.h"
 #include "foresight/statefactory.h"
-#include "foresight/policies/human.h"
-#include "foresight/policies/random.h"
-#include "foresight/policies/pair.h"
-#include "foresight/policies/uniform.h"
-#include "foresight/policies/epsilonnull.h"
-#include "foresight/policies/switchuniform.h"
-#include "foresight/policies/upfront.h"
 #include "foresight/simulatorworld.h"
+#include "foresight/policies/uniform.h"
+#include "foresight/policies/upfront.h"
 
 #include <iostream>
 #include <fstream>
@@ -24,22 +19,22 @@ using std::make_unique;
 using std::vector;
 using std::string;
 
-constexpr int num_runs = 3;
+constexpr int num_runs = 1;
 
 int main() 
 {
-  evaluate_upfront("b_upfront", 100, 100);
+  evaluate_uniform("b_upfront", 100);
   return 0;
 }
 
-void evaluate_upfront(string ofname, int id1, int id2)
+void evaluate_uniform(string ofname, int id1)
 {
   vector<vector<double>> all_regrets;
   vector<vector<int>> all_concur;
   for (int i = 0; i < num_runs; i++) {
     std::cout << "Starting run #" << i << "..." << std::endl;
-    auto domain(create_fake_domain(1337+i));
-    auto policy(make_unique<fore::UpfrontPolicy>(domain, id1, id2));
+    auto domain(test_domain_large(1337+i));
+    auto policy(make_unique<fore::UpfrontPolicy>(domain, id1));
     fore::RealWorld::Ptr real(new fore::SimulatorWorld(domain));
     fore::SimulatorWorld& sim_world(
         static_cast<fore::SimulatorWorld&>(*real)
@@ -80,25 +75,17 @@ void init_logger()
   //TODO: Logging setup?
 }
 
-fore::Domain create_fake_domain(int seed) 
+fore::Domain test_domain_large(int seed) 
 {
-  auto horizon(72);
+  auto horizon(100);
   fore::StateFactory state_fact;
   state_fact.SetResourceAmount(1, 600);
   auto init_state(state_fact.Finish());
 
   fore::DomainFactory domain_fact(horizon, init_state);
 
-  fore::ExperimentActionTypeFactory exp_act_fact(100, "Slow", 12, 1000);
+  fore::ExperimentActionTypeFactory exp_act_fact(100, "Experiment", 5, 1000);
   exp_act_fact.SetResourceRequirement(1, 5);
-  domain_fact.AddActionType(exp_act_fact.Finish());
-
-  exp_act_fact.Reset(101, "Medium", 8, 1000);
-  exp_act_fact.SetResourceRequirement(1, 10);
-  domain_fact.AddActionType(exp_act_fact.Finish());
-
-  exp_act_fact.Reset(102, "Fast", 2, 1000);
-  exp_act_fact.SetResourceRequirement(1, 20);
   domain_fact.AddActionType(exp_act_fact.Finish());
 
   fore::Model cosine(1000, fore::Model::Type::COSINE, seed++);

@@ -29,9 +29,20 @@ Point GP::CalculateBestPoint() const
   return vec_to_point(model_.nextPoint());
 }
 
+std::pair<double, double> GP::CalculateMeanAndStd(Point p) const
+{
+  auto result(model_.getPrediction(point_to_vec(p)));
+  return std::make_pair(result->getMean(), result->getStd());
+}
+
 double GP::CalculateMean(Point p) const
 {
-  return model_.getPrediction(point_to_vec(p))->getMean();
+  return CalculateMeanAndStd(p).first;
+}
+
+double GP::CalculateStd(Point p) const
+{
+  return CalculateMeanAndStd(p).second;
 }
 
 double GP::SimulatedResponse(Point p) const

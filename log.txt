@@ -3,6 +3,7 @@
 * Remembered to use log again again
 * Shifted responsibility for determining the response on exp. action end to
 the 'real world' from the action itself.
+* Started working on having the smart uniform have its own simulation
 
 2016-05-22
 ==========

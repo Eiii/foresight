@@ -18,7 +18,7 @@ Regret::Regret(const Domain& domain) :
 double Regret::CalculateRegret(const State& state)
 {
   double best_mean(std::numeric_limits<double>::quiet_NaN());
-  double best_real;
+  double best_real(std::numeric_limits<double>::quiet_NaN());
 
   for (const auto& key : domain_.models()) {
     const auto& model(key.second);
@@ -33,6 +33,7 @@ double Regret::CalculateRegret(const State& state)
       }
     }
   }
+  assert(!std::isnan(best_real));
   return best_real - actual_min_;
 }
 

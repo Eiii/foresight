@@ -51,7 +51,7 @@ bopt_params CustomModel::DefaultParams(int seed)
   //TODO this is just so that the initial observations are always the same
   params.random_seed = seed; 
   params.n_iterations = 100; // Number of iterations - Not relevant
-  params.n_init_samples = 5;
+  params.n_init_samples = 2;
   params.init_method = 3; //Uniform samples
   params.n_iter_relearn = 1; //TODO ???
   params.force_jump = 0; //Don't jump

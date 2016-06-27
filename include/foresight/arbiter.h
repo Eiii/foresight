@@ -12,7 +12,7 @@ class Arbiter {
   //Constructors
   public:
     Arbiter(const Domain& domain, Policy::Ptr&& policy, 
-            RealWorld::Ptr&& real_world);
+            RealWorld::Ptr&& real_world, int start_time = 0);
     virtual ~Arbiter() = default;
     //Forbid copying
     Arbiter(const Arbiter& rhs) = delete;
@@ -23,7 +23,8 @@ class Arbiter {
 
   //Public functions
   public:
-    void Optimize() const;
+    void Optimize();
+    State CurrentState() const;
 
   //Private functions
   private:
@@ -35,6 +36,9 @@ class Arbiter {
     Policy::Ptr policy_;
     RealWorld::Ptr real_world_;
     Simulator simulator_;
+    double final_regret_;
+    int start_time_; //TODO: timestep type?
+    std::unique_ptr<State> last_state_;
 };
 
 }

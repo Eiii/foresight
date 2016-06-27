@@ -21,7 +21,7 @@ class Regret {
   protected:
     void CalculateMinimum();
 
-  private:
+  protected:
     const Domain& domain_;
     double actual_min_;
 };

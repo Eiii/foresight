@@ -26,6 +26,7 @@ class SimulatorWorld : public RealWorld {
     void TakeAction(const Action& action) override;
     double ObservationResponse(const State& state, const Model& model, 
                                Point point) const override;
+    double FinalRegret() override;
 
   //Public functions
   public:

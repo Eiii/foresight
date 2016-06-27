@@ -21,12 +21,13 @@ State Simulator::AdvanceTime(const State& state) const
   StateFactory state_fact(state);
 
   //Advance time
-  state_fact.set_time(state.time()+1);
+  auto next_time(state.time()+1);
+  state_fact.set_time(next_time);
 
   //Find all finished actions
   Action::List next_actions;
   for (const auto& action_p : state.running_actions()) {
-    if (IsActionFinished(*action_p, state)) {
+    if (IsActionFinished(*action_p, next_time)) {
       const auto& atype(domain_.action_type(action_p->type_id()));
       atype.End(*action_p, domain_, state, &state_fact, *real_world_);
     } else if (!is_null_action(*action_p)) {
@@ -109,12 +110,12 @@ std::vector<Action::Ptr> Simulator::LegalActions(const State& state) const
 }
 
 bool Simulator::IsActionFinished(const Action& action, 
-                                 const State& state) const
+                                 int time) const
 {
   if (is_null_action(action)) return false;
   const auto& atype(domain_.action_type(action.type_id()));
   auto duration(atype.duration().mean());
-  return state.time() >= action.time_started() + duration;
+  return time >= action.time_started() + duration;
 }
 
 }

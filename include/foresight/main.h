@@ -7,6 +7,6 @@ namespace fore {
 }
 
 int main();
-void evaluate_upfront(std::string ofname, int id1, int id2);
+void evaluate_uniform(std::string ofname, int id1);
 void init_logger();
-fore::Domain create_fake_domain(int seed);
+fore::Domain test_domain_large(int seed);

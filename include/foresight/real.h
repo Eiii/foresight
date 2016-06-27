@@ -32,6 +32,7 @@ class RealWorld {
     virtual double ObservationResponse(
         const State& state, const Model& model, Point point
     ) const = 0;
+    virtual double FinalRegret() = 0;
 };
 
 };

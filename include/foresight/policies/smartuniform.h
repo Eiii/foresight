@@ -23,12 +23,15 @@ class SmartUniformPolicy : public Policy {
 
   //Private functions
   private:
-  double SimulatePolicy(Policy::Ptr&& policy, const State& state) const;
+  double SimulatePolicy(Policy::Ptr& policy, 
+                        const State& state, int seed) const;
+  double Improvement(const State& first, const State& second) const;
 
   private:
     Policy::Ptr policy1_;
     Policy::Ptr policy2_;
     bool switched_;
+    int last_time_tested_;
 };
 
 }

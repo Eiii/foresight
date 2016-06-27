@@ -23,6 +23,7 @@ class State {
   //Public functions
   public:
     std::string Info(const Domain& domain) const;
+    int resource(int id) const;
 
   //Getters
   public:

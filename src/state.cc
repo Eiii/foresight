@@ -49,6 +49,11 @@ std::string State::Info(const Domain& domain) const
   return ss.str();
 }
 
+int State::resource(int id) const
+{
+  return resources_.count(id) ? resources_.at(id) : 0;
+}
+
 }
 
 void show_resource_amounts(std::stringstream* ss, fore::Resource::Amount amt,
