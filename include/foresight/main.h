@@ -6,7 +6,8 @@ namespace fore {
   class Domain;
 }
 
-int main();
-void evaluate_uniform(std::string ofname, int id1);
+int main(int argc, char* argv[]);
 void init_logger();
 fore::Domain test_domain_large(int seed);
+fore::Domain test_domain(int seed);
+

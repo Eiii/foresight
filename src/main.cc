@@ -18,23 +18,42 @@ using std::move;
 using std::make_unique;
 using std::vector;
 using std::string;
+using std::function;
 
 constexpr int num_runs = 1;
 
-int main() 
+template<typename T>
+void evaluate_uniform(function<fore::Domain (int)> fn, string ofname, int id1);
+
+int main(int argc, char *argv[]) 
 {
-  evaluate_uniform("b_upfront", 100);
+  assert(argc == 3); (void)argc;
+  std::string arg(argv[1]), domain(argv[2]);
+  function<fore::Domain (int)> fn;
+  std::string name(arg);
+  if (domain == "big") {
+    name = "b_"+name;
+    fn = test_domain_large; 
+  } else {
+    fn = test_domain;
+  }
+  if (arg == "uniform") {
+    evaluate_uniform<fore::UniformPolicy>(fn, name, 100);
+  } else if (arg == "upfront") {
+    evaluate_uniform<fore::UpfrontPolicy>(fn, name, 100);
+  }
   return 0;
 }
 
-void evaluate_uniform(string ofname, int id1)
+template<typename T>
+void evaluate_uniform(function<fore::Domain (int)> fn, string ofname, int id1)
 {
   vector<vector<double>> all_regrets;
   vector<vector<int>> all_concur;
   for (int i = 0; i < num_runs; i++) {
     std::cout << "Starting run #" << i << "..." << std::endl;
-    auto domain(test_domain_large(1337+i));
-    auto policy(make_unique<fore::UpfrontPolicy>(domain, id1));
+    auto domain(fn(1337+i));
+    auto policy(make_unique<T>(domain, id1));
     fore::RealWorld::Ptr real(new fore::SimulatorWorld(domain));
     fore::SimulatorWorld& sim_world(
         static_cast<fore::SimulatorWorld&>(*real)
@@ -80,6 +99,28 @@ fore::Domain test_domain_large(int seed)
   auto horizon(100);
   fore::StateFactory state_fact;
   state_fact.SetResourceAmount(1, 600);
+  auto init_state(state_fact.Finish());
+
+  fore::DomainFactory domain_fact(horizon, init_state);
+
+  fore::ExperimentActionTypeFactory exp_act_fact(100, "Experiment", 5, 1000);
+  exp_act_fact.SetResourceRequirement(1, 5);
+  domain_fact.AddActionType(exp_act_fact.Finish());
+
+  fore::Model cosine(1000, fore::Model::Type::COSINE, seed++);
+
+  domain_fact.AddResource(1, "Budget");
+  domain_fact.AddModel(move(cosine));
+  domain_fact.set_has_null_action(true);
+
+  return domain_fact.FinishAndReset();
+}
+
+fore::Domain test_domain(int seed) 
+{
+  auto horizon(100);
+  fore::StateFactory state_fact;
+  state_fact.SetResourceAmount(1, 200);
   auto init_state(state_fact.Finish());
 
   fore::DomainFactory domain_fact(horizon, init_state);
