@@ -24,8 +24,18 @@ Policy::Ptr UpfrontPolicy::Clone() const
 
 vector<int> UpfrontPolicy::CalcActionsPerStep(const Domain& domain) const
 {
-  auto aps(vector<int>(domain.horizon()+1, 0));
-  std::cout << "Upfront APS" << std::endl;
+  auto horizon(domain.horizon());
+  const auto& action(domain_.action_type(action_id_));
+  auto timesteps(horizon/action.duration().mean());
+  auto initial_amt(domain.initial_state().resources());
+
+  auto aps(vector<int>(horizon+1, 0));
+  for (int t = 0; t < horizon; t++) aps[t] = 1;
+
+  auto req(action.requires());
+  auto leftover(initial_amt-req*timesteps);
+
+  aps[0] += leftover/req;
   return aps;
 }
 

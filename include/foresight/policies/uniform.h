@@ -28,12 +28,9 @@ class UniformPolicy : public Policy {
   private:
     int ActionsStarted(const State& state) const;
 
-  //Private members
-  private:
-    ActionType::Id action_id_;
-
   //Protected members
   protected:
+    ActionType::Id action_id_;
     std::vector<int> actions_per_step_;
 
 };
