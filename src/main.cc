@@ -20,7 +20,7 @@ using std::vector;
 using std::string;
 using std::function;
 
-constexpr int num_runs = 1;
+constexpr int num_runs = 20;
 
 template<typename T>
 void evaluate_uniform(function<fore::Domain (int)> fn, string ofname, int id1);
