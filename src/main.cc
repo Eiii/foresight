@@ -9,6 +9,9 @@
 #include "foresight/simulatorworld.h"
 #include "foresight/policies/uniform.h"
 #include "foresight/policies/upfront.h"
+#include "foresight/policies/upfront_smooth.h"
+#include "foresight/policies/upfront_bad.h"
+#include "foresight/policies/smooth.h"
 
 #include <iostream>
 #include <fstream>
@@ -20,7 +23,8 @@ using std::vector;
 using std::string;
 using std::function;
 
-constexpr int num_runs = 20;
+constexpr int num_runs = 30;
+constexpr int base_seed = 1337;
 
 template<typename T>
 void evaluate_uniform(function<fore::Domain (int)> fn, string ofname, int id1);
@@ -41,6 +45,12 @@ int main(int argc, char *argv[])
     evaluate_uniform<fore::UniformPolicy>(fn, name, 100);
   } else if (arg == "upfront") {
     evaluate_uniform<fore::UpfrontPolicy>(fn, name, 100);
+  } else if (arg == "upfront_smooth") {
+    evaluate_uniform<fore::UpfrontSmoothPolicy>(fn, name, 100);
+  } else if (arg == "smooth") {
+    evaluate_uniform<fore::SmoothPolicy>(fn, name, 100);
+  } else if (arg == "upfront_bad") {
+    evaluate_uniform<fore::UpfrontBadPolicy>(fn, name, 100);
   }
   return 0;
 }
@@ -50,9 +60,10 @@ void evaluate_uniform(function<fore::Domain (int)> fn, string ofname, int id1)
 {
   vector<vector<double>> all_regrets;
   vector<vector<int>> all_concur;
+  vector<vector<fore::Point>> last_points; //my life is a lie
   for (int i = 0; i < num_runs; i++) {
     std::cout << "Starting run #" << i << "..." << std::endl;
-    auto domain(fn(1337+i));
+    auto domain(fn(base_seed+i));
     auto policy(make_unique<T>(domain, id1));
     fore::RealWorld::Ptr real(new fore::SimulatorWorld(domain));
     fore::SimulatorWorld& sim_world(
@@ -62,6 +73,7 @@ void evaluate_uniform(function<fore::Domain (int)> fn, string ofname, int id1)
     arbiter.Optimize();
     all_regrets.push_back(sim_world.FinalRegrets());
     all_concur.push_back(sim_world.FinalConcurrent());
+    last_points = sim_world.FinalRunning();
   }
 
   //Calculate average regret at each timestep
@@ -83,6 +95,19 @@ void evaluate_uniform(function<fore::Domain (int)> fn, string ofname, int id1)
     for (unsigned int i = 0; i < regrets.size(); i++) {
       output << regrets[i];
       if (i != regrets.size()-1) output << ", ";
+    }
+    output << std::endl;
+  }
+  output.close();
+
+
+  //Same sort of things for points
+  string points_name = ofname + "_points.csv";
+  output.open(points_name.c_str());
+  for (const auto& points : last_points) {
+    for (unsigned int i = 0; i < points.size(); i++) {
+      output << points[i][0] << "/" << points[i][1];
+      if (i != points.size()-1) output << ", ";
     }
     output << std::endl;
   }

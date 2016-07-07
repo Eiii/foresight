@@ -4,6 +4,8 @@
 #include "foresight/simulator.h"
 #include "foresight/nullaction.h"
 
+#include "foresight/experimentaction.h"
+
 #include <cassert>
 #include <iostream>
 
@@ -80,6 +82,23 @@ std::vector<int> SimulatorWorld::FinalConcurrent()
     concurrent.push_back(running);
   }
   return concurrent;
+}
+
+std::vector<std::vector<Point>> SimulatorWorld::FinalRunning()
+{
+  std::vector<std::vector<Point>> all_points;
+  for (const auto& state : state_history) {
+    std::vector<Point> state_points;
+    const auto& running(state.running_actions());
+    for (const auto& action : running) {
+      if (is_experiment_action(*action)) {
+        const auto& exp_action(static_cast<const ExperimentAction&>(*action)); 
+        state_points.push_back(exp_action.input_point());
+      }
+    }
+    all_points.push_back(state_points);
+  }
+  return all_points;
 }
 
 double SimulatorWorld::ObservationResponse(

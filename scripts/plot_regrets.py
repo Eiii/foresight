@@ -13,6 +13,9 @@ ylabel_running = "Avg. Running Experiments"
 dataset = (
            ('uniform_', 'Uniform'),
            ('upfront_', 'Upfront'),
+           ('smooth_', 'Smooth'),
+           ('upfront_smooth_', 'Upfront Smooth'),
+           ('upfront_bad_', 'Upfront Bad'),
           )
 
 def regret_file(prefix):

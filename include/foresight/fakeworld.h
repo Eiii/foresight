@@ -1,24 +1,24 @@
 #pragma once
 
 #include "foresight/real.h"
-#include "foresight/regret.h"
+#include "foresight/fakeregret.h"
 #include "foresight/simulator.h"
-#include "foresight/types.h"
+#include "foresight/util/random.h"
 
 namespace fore {
 
-class SimulatorWorld : public RealWorld {
+class FakeWorld : public RealWorld {
   //Constructors
   public:
-    SimulatorWorld(const Domain& domain);
-    virtual ~SimulatorWorld() = default;
-    SimulatorWorld(const SimulatorWorld&) = delete;
-    SimulatorWorld& operator=(const SimulatorWorld&) = delete;
-    SimulatorWorld(SimulatorWorld&&) = default;
-    SimulatorWorld& operator=(SimulatorWorld&&) = default;
+    FakeWorld(const Domain& domain, const State& state, int seed);
+    virtual ~FakeWorld() = default;
+    FakeWorld(const FakeWorld&) = delete;
+    FakeWorld& operator=(const FakeWorld&) = delete;
+    FakeWorld(FakeWorld&&) = default;
+    FakeWorld& operator=(FakeWorld&&) = default;
 
   //Interface functions
-  public: //TODO: const these functions!
+  public:
     void Start() override;
     void End() override;
     bool IsFinished() const override;
@@ -29,19 +29,15 @@ class SimulatorWorld : public RealWorld {
                                Point point) const override;
     double FinalRegret() override;
 
-  //Public functions
-  public:
-    std::vector<double> FinalRegrets();
-    std::vector<int> FinalConcurrent();
-    std::vector<std::vector<Point>> FinalRunning();
-
   //Private member variables
   private:
     const Domain& domain_;
     Simulator simulator_;
     State current_state_;
-    Regret regret_;
-    std::vector<State> state_history;
+    State starting_state_;
+    State control_state_;
+    FakeRegret regret_;
+    mutable RandomEngine random_;
 };
 
 }

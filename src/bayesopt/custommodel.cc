@@ -31,12 +31,12 @@ bopt_params CustomModel::DefaultParams(int seed)
   set_criteria(&params, "cEI");
   params.n_crit_params = 0;
 
-  set_kernel(&params,"kSEISOfixed");
+  set_kernel(&params,"kSEISO");
   params.kernel.hp_mean[0] = 1.0;
   params.kernel.hp_std[0] = 1.0;
   params.kernel.n_hp = 1;
 
-  set_mean(&params,"mConst"); //Mean 0, std 1
+  set_mean(&params,"mConst"); //Mean 0, std 0
   params.mean.coef_mean[0] = 0.0;
   params.mean.coef_std[0] = 1.0;
   params.mean.n_coef = 1;
@@ -53,7 +53,7 @@ bopt_params CustomModel::DefaultParams(int seed)
   params.n_iterations = 100; // Number of iterations - Not relevant
   params.n_init_samples = 2;
   params.init_method = 3; //Uniform samples
-  params.n_iter_relearn = 1; //TODO ???
+  params.n_iter_relearn = 100; //TODO ???
   params.force_jump = 0; //Don't jump
 
   params.verbose_level = -1;

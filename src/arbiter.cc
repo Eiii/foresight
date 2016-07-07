@@ -49,7 +49,7 @@ void Arbiter::Optimize()
     }
 
     //Display current state
-    cout << state.Info(domain_) << endl;
+    //cout << state.Info(domain_) << endl;
 
     last_state_.reset(new State(state));
 
